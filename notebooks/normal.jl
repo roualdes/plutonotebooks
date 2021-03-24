@@ -19,6 +19,9 @@ using Distributions
 # ╔═╡ 73290c6a-7dd7-11eb-363c-1ff5a2aad1f5
 using Plots
 
+# ╔═╡ f001ec14-8cbd-11eb-19a0-2123c7470848
+md"# Family of Normal Distributions"
+
 # ╔═╡ c4145b48-7de1-11eb-059d-870e7d3004c5
 begin
 	μ = @bind mu html"<input type='range' min='-10.0' max='10.0' step='0.1' value='0.0'>"
@@ -54,6 +57,7 @@ plot(x, pdf.(N, x), label = "Normal( $mu, $(sigma^2) )",
 	linewidth = 2, 	ylims = (0, 0.45 / sigma^0.5))
 
 # ╔═╡ Cell order:
+# ╟─f001ec14-8cbd-11eb-19a0-2123c7470848
 # ╟─b0fa3884-7de1-11eb-11e1-7dcc4792c795
 # ╟─c4145b48-7de1-11eb-059d-870e7d3004c5
 # ╟─8ad224ba-7e03-11eb-3390-fd30f91b85b6
