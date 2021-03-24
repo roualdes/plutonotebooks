@@ -21,6 +21,7 @@ COPY --chown=${NB_USER}:users ./Manifest.toml ./Manifest.toml
 ENV JULIA_PROJECT=/home/jovyan
 RUN julia -e "import Pkg; Pkg.Registry.update(); Pkg.instantiate(); Pkg.status(); Pkg.precompile()"
 
+WORKDIR ${USER_HOME_DIR}
 COPY --chown=${NB_USER}:users ./warmup.jl ./warmup.jl
 COPY --chown=${NB_USER}:users ./create_sysimage.jl ./create_sysimage.jl
 
