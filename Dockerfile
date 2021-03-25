@@ -21,14 +21,14 @@ COPY --chown=${NB_USER}:users ./Manifest.toml ./Manifest.toml
 ENV JULIA_PROJECT=/home/jovyan
 RUN julia -e "import Pkg; Pkg.Registry.update(); Pkg.instantiate(); Pkg.status(); Pkg.precompile()"
 
-ENV USER_HOME_DIR /home/${NB_USER}
-ENV JULIA_DEPOT_PATH ${USER_HOME_DIR}/.julia
-WORKDIR ${USER_HOME_DIR}
+# ENV USER_HOME_DIR /home/${NB_USER}
+# ENV JULIA_DEPOT_PATH ${USER_HOME_DIR}/.julia
+# WORKDIR ${USER_HOME_DIR}
 
-COPY --chown=${NB_USER}:users ./warmup.jl ./warmup.jl
-COPY --chown=${NB_USER}:users ./create_sysimage.jl ./create_sysimage.jl
+# COPY --chown=${NB_USER}:users ./warmup.jl ./warmup.jl
+# COPY --chown=${NB_USER}:users ./create_sysimage.jl ./create_sysimage.jl
 
-RUN julia create_sysimage.jl
+# RUN julia create_sysimage.jl
 
 RUN jupyter labextension install @jupyterlab/server-proxy && \
     jupyter lab build && \
