@@ -26,6 +26,9 @@ RUN julia -e "import Pkg; Pkg.Registry.update(); Pkg.instantiate();"
 COPY --chown=${NB_USER}:users ./warmup.jl ./warmup.jl
 COPY --chown=${NB_USER}:users ./create_sysimage.jl ./create_sysimage.jl
 USER root
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN julia create_sysimage.jl
 USER ${NB_USER}
 RUN julia -e "import Pkg; Pkg.Registry.update(); Pkg.instantiate(); Pkg.status(); Pkg.precompile()"
