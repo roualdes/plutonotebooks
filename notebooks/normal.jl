@@ -17,7 +17,7 @@ end
 using Distributions
 
 # ╔═╡ 73290c6a-7dd7-11eb-363c-1ff5a2aad1f5
-using Plots
+using StatsPlots
 
 # ╔═╡ f001ec14-8cbd-11eb-19a0-2123c7470848
 md"# Family of Normal Distributions"

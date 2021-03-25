@@ -17,7 +17,7 @@ end
 using Distributions
 
 # ╔═╡ e9b0055a-7dfc-11eb-2270-e30e833cee00
-using Plots
+using StatsPlots
 
 # ╔═╡ ef30e082-7dfd-11eb-3116-b590d75e8735
 begin

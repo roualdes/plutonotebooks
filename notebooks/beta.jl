@@ -17,15 +17,15 @@ end
 using Distributions
 
 # ╔═╡ 4cac0536-7e01-11eb-0f19-29257e61fef3
-using Plots
+using StatsPlots
 
 # ╔═╡ 9bcb7778-7e01-11eb-38f5-0d934dfa6201
 x = [0:0.01:1;]
 
 # ╔═╡ 5605125a-7e01-11eb-13a6-596920930e6a
 begin
-	α = @bind a html"<input type='range' min='0' max='10' step='0.1' value='5'>"
-	β = @bind b html"<input type='range' min='0' max='10' step='0.1' value='5'>"
+	α = @bind a html"<input type='range' min='0.1' max='10' step='0.1' value='5'>"
+	β = @bind b html"<input type='range' min='0.1' max='10' step='0.1' value='5'>"
 	md"""**distribution parameters:**
 	$$\alpha$$: $α
 	$$\beta$$: $β
