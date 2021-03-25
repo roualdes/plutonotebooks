@@ -1,6 +1,3 @@
-using Pkg
-Pkg.add(["Pluto", "PlutoUI", "PackageCompiler"])
-
 using PackageCompiler
 create_sysimage([:Pluto, :PlutoUI, :Distributions, :StatsPlots];
                 precompile_execution_file="warmup.jl",
