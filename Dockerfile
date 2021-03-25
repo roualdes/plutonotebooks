@@ -20,16 +20,15 @@ COPY --chown=${NB_USER}:users ./Manifest.toml ./Manifest.toml
 
 
 ENV JULIA_PROJECT=/home/jovyan
-RUN julia -e "import Pkg; Pkg.Registry.update(); Pkg.instantiate(); Pkg.status(); Pkg.precompile()"
+RUN julia -e "import Pkg; Pkg.Registry.update(); Pkg.instantiate();"
 
 
 USER root
-ENV JULIA_DEPOT_PATH ${USER_HOME_DIR}/.julia
 COPY --chown=${NB_USER}:users ./warmup.jl ./warmup.jl
 COPY --chown=${NB_USER}:users ./create_sysimage.jl ./create_sysimage.jl
 RUN julia create_sysimage.jl
 USER ${NB_USER}
-
+RUN julia -e "import Pkg; Pkg.Registry.update(); Pkg.instantiate(); Pkg.status(); Pkg.precompile()"
 
 
 RUN jupyter labextension install @jupyterlab/server-proxy && \
