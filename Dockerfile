@@ -19,8 +19,6 @@ COPY --chown=${NB_USER}:users ./Project.toml ./Project.toml
 COPY --chown=${NB_USER}:users ./Manifest.toml ./Manifest.toml
 
 
-ENV USER_HOME_DIR /home/${NB_USER}
-ENV JULIA_DEPOT_PATH ${USER_HOME_DIR}/.julia
 RUN julia -e "import Pkg; Pkg.Registry.update(); Pkg.instantiate();"
 USER root
 COPY --chown=${NB_USER}:users ./warmup.jl ./warmup.jl
