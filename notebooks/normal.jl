@@ -28,7 +28,7 @@ begin
 	σ = @bind sigma html"<input type='range' min='1' max='10.0' step='0.1' value='1.0'>"
 	md"""**distribution parameters:**
 	$$\mu$$: $μ
-	$$\sigma$$:  = $σ
+	$$\sigma$$: $σ
 	"""
 end
 
@@ -50,7 +50,7 @@ Variance: $$\sigma^2$$ = $(sigma^2)
 """
 
 # ╔═╡ b940194a-7de2-11eb-2f76-ad1abefdb11d
-N = Normal(mu, sigma^2);
+N = Normal(mu, sigma);
 
 # ╔═╡ b15f8620-7de2-11eb-323f-2f98407f01f3
 plot(x, pdf.(N, x), label = "Normal( $mu, $(sigma^2) )", 
