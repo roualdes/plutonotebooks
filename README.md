@@ -1,6 +1,6 @@
-# plutonotebooks
+# Pluto Notebooks
 
-A collection of notebooks which introduce various statistics topics.
+A collection of interactive [Pluto.jl](https://github.com/fonsp/Pluto.jl) notebooks which introduce various statistics topics.
 
 ### Notebooks
 
@@ -10,6 +10,9 @@ A collection of notebooks which introduce various statistics topics.
 
 
 [Central Limit Theorem](https://mybinder.org/v2/gh/roualdes/plutonotebooks/main?urlpath=pluto/open?path=/home/jovyan/notebooks/clt.jl)
+
+
+[Joint, Marginal, Conditional Densities](https://mybinder.org/v2/gh/roualdes/plutonotebooks/main?urlpath=pluto/open?path=/home/jovyan/notebooks/jointmarginalconditionaldensities.jl)
 
 [Normal](https://mybinder.org/v2/gh/roualdes/plutonotebooks/main?urlpath=pluto/open?path=/home/jovyan/notebooks/normal.jl)
 
