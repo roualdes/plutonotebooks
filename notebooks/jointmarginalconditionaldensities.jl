@@ -15,7 +15,7 @@ end
 
 # ╔═╡ f01568ca-a480-11eb-20c5-039d52fd7c70
 begin
-	using Plots
+	using StatsPlots
 	using PlutoUI
 end
 
@@ -30,7 +30,7 @@ $$f(x, y) = 4x^2y + 2y^5, \quad \text{ for } y \in [0, 1] \text{ and } x \in [0,
 We can visualize this as"
 
 # ╔═╡ 008cc8d7-8a36-4643-a282-c68fb849da55
-md"""The **marginal** density with respect to to $y$ is give by 
+md"""The **marginal** density with respect to to $y$ is give by
 
 $$f(y) = \frac{4}{3}y + 2y^5,$$
 
@@ -64,7 +64,7 @@ $$\mathbb{P}[Y\in [0.2, 0.3] | X = x] = \int_{[0.2, 0.3]}  g(y|x) dy$$
 y = 0:0.05:1;
 
 # ╔═╡ ed32a057-c61d-4dae-ad51-9b8a0b1ecd43
-plot(y, y, (x, y) -> 4x^2 * y + 2y^5, 
+plot(y, y, (x, y) -> 4x^2 * y + 2y^5,
 	xlabel = "x", ylabel = "y", zlabel = "f(x, y)",	t = :wireframe)
 
 # ╔═╡ 393f86db-3259-45f9-84da-6205d5d2c928
