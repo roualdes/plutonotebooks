@@ -124,9 +124,6 @@ whent ``\mathbb{P}`` represents a uniform distribution (of probability) over a f
 # ╔═╡ 26cdcadc-f212-4cd2-a159-c85fc1a6574f
 md"The plot below represents the density function for a fair die, which we will see in Section Examples is written in statistics notation as ``\text{Uniform}(1, 6)``."
 
-# ╔═╡ 77a6274a-e7d3-4700-a404-e4c32ec8a29e
-repeat([0, 1/6], 3, 2)
-
 # ╔═╡ 6f0da015-f70a-490c-b116-9b9204371f76
 md"We use this canonical image of area under a function as our starting point.  We will adapt this idea in a few specific ways so as to 
 
@@ -143,24 +140,27 @@ begin
 		6 => 2/25, 7 => 2/25, 8 => 1/25, 9 => 11/25)	
 	y = 0:10
 	yfill = 6:9
-	p = plot(y, [last(gkp) for gkp in gaskeypad], t = :scatter, 
+	p2 = plot(y, [last(gkp) for gkp in gaskeypad], t = :scatter, 
 		xlabel = L"x", ylabel = L"g(x)", label = false)
 	for yf in yfill
-	 plot!(p, [yf, yf], [0.0, gaskeypad[yf+1][2]], t = :line, 
+	 plot!(p2, [yf, yf], [0.0, gaskeypad[yf+1][2]], t = :line, 
 			c = cols[1], linewidth = 2, label = false)
 	end
-	p
+	p2
 end
 
 # ╔═╡ 483c1814-c485-4ac2-8940-8c0b3b68de59
 begin
 	x = 1:6
 	xfill = 2:4
-	plot(x, repeat([1/6], 6), t = :scatter,
+	p = plot(x, repeat([1/6], 6), t = :scatter,
 		ylimits = (0, 0.25),
 		xlabel = L"x", ylabel = "Density", label = false)
-	plot!(repeat(xfill, 1, 2), repeat([0, 1/6], 3, 2),
-		t = :line, c = cols[1], label = false)
+	for xf in xfill
+		plot!(p, [xf, xf], [0, 1/6],
+			t = :line, c = cols[1], label = false)
+	end
+	p
 end
 
 
@@ -236,7 +236,6 @@ render_table(gaskeypad)
 # ╠═f10cecb7-cb04-43ee-8db0-f623d99115c1
 # ╠═26cdcadc-f212-4cd2-a159-c85fc1a6574f
 # ╠═483c1814-c485-4ac2-8940-8c0b3b68de59
-# ╠═77a6274a-e7d3-4700-a404-e4c32ec8a29e
 # ╠═6f0da015-f70a-490c-b116-9b9204371f76
 # ╠═28dce3a3-63b4-4496-bf99-2779d29881d9
 # ╠═203f0879-875e-4a25-a7df-3c54f72ff41f
