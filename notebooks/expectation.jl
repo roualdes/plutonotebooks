@@ -56,7 +56,7 @@ begin
 	p = plot(y, [last(gkp) for gkp in gaskeypad], t = :scatter, 
 		xlabel = L"x", ylabel = L"g(x)", label = false)
 	for yf in yfill
-	 plot!(p, [yf, yf], [0.0, gaskeypad[yf+1][2]], t = :line, 
+		plot!(p, [yf, yf], [0.0, gaskeypad[yf+1][2]], t = :line, 
 			c = cols[1], linewidth = 2, label = false)
 	end
 	p
