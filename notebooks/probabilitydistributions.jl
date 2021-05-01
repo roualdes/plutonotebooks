@@ -51,7 +51,7 @@ md"A probability distribution is a function that applies sets, specifically a fu
 
 $$\mathbb{P}[A] = p$$
 
-for some ``p \in [0, 1]``. The specific value of ``p`` is determined by the specific distribution being used.  
+for some ``p \in [0, 1]``. The specific value of ``p`` is determined by the specific distribution being used.
 
 * If ``\mathbb{P}`` represents a fair coin and ``A = \{H\}``, then we tend to believe ``\mathbb{P}[A] = \mathbb{P}[\{H\}] = 0.5``.
 * If ``\mathbb{P}`` represents a fair die and ``A = \{1, 2\}``, then we would have ``\mathbb{P}[\{1, 2\}] = 2/6``.
@@ -86,10 +86,10 @@ md"The third axiom of probability is relatively easy to visualize.  The entire b
 $$A = \cup_{n \in \{1, 2, 3, 4, 5\}} A_n.$$"
 
 # ╔═╡ 8358fab7-4b42-45ec-bcdf-661747dde8f7
-plot(0:5, t = :vline, xlimit = (0, 5), 
+plot(0:5, t = :vline, xlimit = (0, 5),
 	annotations = [
-		(0.5, 1.5, L"A_1"), 
-		(1.5, 1.5, L"A_2"), 
+		(0.5, 1.5, L"A_1"),
+		(1.5, 1.5, L"A_2"),
 		(2.5, 1.5, L"A_3"),
 		(3.5, 1.5, L"A_4"),
 		(4.5, 1.5, L"A_5")],
@@ -115,7 +115,7 @@ For instance, this definition immediately won't apply to uncountable sample spac
 md"In general, probability is defined to be area under a probability distribution's  density function.  See the notebook on [TODO add link to] Density Functions for more details.  For now, we will assume that a density function of a probability distribution is the function that enables the assignment of probability to subsets of the sample space."
 
 # ╔═╡ f10cecb7-cb04-43ee-8db0-f623d99115c1
-md"Luckily, defining probability as area under a density function conforms to 
+md"Luckily, defining probability as area under a density function conforms to
 
 $$\mathbb{P}[A] = |A| / |S|$$
 
@@ -125,9 +125,9 @@ whent ``\mathbb{P}`` represents a uniform distribution (of probability) over a f
 md"The plot below represents the density function for a fair die, which we will see in Section Examples is written in statistics notation as ``\text{Uniform}(1, 6)``."
 
 # ╔═╡ 6f0da015-f70a-490c-b116-9b9204371f76
-md"We use this canonical image of area under a function as our starting point.  We will adapt this idea in a few specific ways so as to 
+md"We use this canonical image of area under a function as our starting point.  We will adapt this idea in a few specific ways so as to
 
-1. satisfy the Axioms of Probability, and 
+1. satisfy the Axioms of Probability, and
 2. expand the problem domain of probability distributions and thus statistics."
 
 # ╔═╡ 28dce3a3-63b4-4496-bf99-2779d29881d9
@@ -137,13 +137,13 @@ md"We use this canonical image of area under a function as our starting point.  
 begin
 	cols = get_color_palette(:auto, 17)
 	gaskeypad = (0 => 0.0, 1 => 0.0, 2 => 3/25, 3 => 1/25, 4 => 0.0, 5 => 5/25,
-		6 => 2/25, 7 => 2/25, 8 => 1/25, 9 => 11/25)	
+		6 => 2/25, 7 => 2/25, 8 => 1/25, 9 => 11/25)
 	y = 0:10
 	yfill = 6:9
-	p2 = plot(y, [last(gkp) for gkp in gaskeypad], t = :scatter, 
+	p2 = plot(y, [last(gkp) for gkp in gaskeypad], t = :scatter,
 		xlabel = L"x", ylabel = L"g(x)", label = false)
 	for yf in yfill
-	 plot!(p2, [yf, yf], [0.0, gaskeypad[yf+1][2]], t = :line, 
+	 plot!(p2, [yf, yf], [0.0, gaskeypad[yf+1][2]], t = :line,
 			c = cols[1], linewidth = 2, label = false)
 	end
 	p2
@@ -162,7 +162,6 @@ begin
 	end
 	p
 end
-
 
 # ╔═╡ f54cb70e-b6f1-44f8-b36c-01c6f373fa90
 
