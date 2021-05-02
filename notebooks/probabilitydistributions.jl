@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.3
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -26,7 +26,7 @@ TableOfContents(; depth = 2)
 md"## Introduction"
 
 # ╔═╡ 46f5142e-369f-4c78-8d91-cd267933d8be
-md"Probability is a conserved quantity distributed over a space ``S``.  A probability distribution is then a mathematical description of how much of this conserved quantity, named probability, is assigned to most[^1] subsets ``A`` of ``S``, ``A \subseteq S``.  The set ``S`` is called the **sample space**."
+md"Probability is a conserved quantity distributed over a space ``S``.  A probability distribution is then a mathematical description of how much of this conserved quantity, named probability, is assigned to (most[^1]) subsets ``A`` of ``S``, ``A \subseteq S``.  The set ``S`` is called the **sample space**."
 
 # ╔═╡ 57d26450-bb69-46b2-93a8-bbee93c91436
 md"**Example: Gas Station Keypads**.  Imagine you are at a gas station, about to enter the zip code associated with your credit card.  Have you ever noticed that the digits of the local zip codes are often more worn than the other digits?  In fact, the wear on the keypad describes a probability distribution over the sample space ``S = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}``.  Probability is higher for, or distributed more to, the numbers of the digits of the local zip codes, and is lower for, or distributed less to, the other numbers.  Further, we should expect repeated numbers within the local zip codes to have higher probability than less common numbers of the local zip codes."
@@ -35,19 +35,19 @@ md"**Example: Gas Station Keypads**.  Imagine you are at a gas station, about to
 md"**Example: Fair Die**.  A fair die is a more common choice for a first example.  The sample space ``S = \{1, 2, 3, 4, 5, 6\}`` and probability is evenly, or uniformly, distributed over the singletons (single element subsets) of ``S``."
 
 # ╔═╡ 0dfb6258-4451-4d64-a704-9da3ec92ca07
-md"**Example: Fair Coin**.  A fair coin with sides ``H`` for heads and ``T`` for tails is another common first example choice. A fair coin is another example of a uniform distribution of probability over its sample space ``S = \{H, T\}``.  A nice feature of this example is that the sample space is not numbers, thus highlighting the generality of probability distributions.  Probability distributions need not apply to sample spaces of only numbers.  The sample space ``S`` can really be almost any set."
+md"**Example: Fair Coin**.  A fair coin with sides ``H`` for heads and ``T`` for tails is another common first example. A fair coin is another example of a uniform distribution of probability over its sample space ``S = \{H, T\}``.  A nice feature of this example is that the sample space is not numbers, thus highlighting the generality of probability distributions.  Probability distributions need not apply to sample spaces of only numbers.  The sample space ``S`` can really be almost any set."
 
 # ╔═╡ 8aa81756-2bc5-462b-bbc2-84708fab3a70
 md"The gas station keypad example above contrasts nicely against the next two examples.  The gas station keypad's distribution is a non-uniform distribution of probability (over singletons of the sample space), whereas the other two examples represent a uniform distribution (of probability over singletons of the sample space).  These three examples will thus help us generalize our concept of probability."
 
 # ╔═╡ 227003ce-5470-4f04-93a5-6cbe84a2358d
-md"A probability distribution is any function that assigns a number, also referred to as probability, to (most[^1]) subsets of a sample space and also satisfies the axioms of probability, provided below.  It's common to think of probability as a number, but in fact it is a function that assigns probability to subsets of ``S``.  After discussing the Axioms of Probability, we'll discuss some more complicated examples of probability distributions, to help ensure that we come away with a general concept of probability that can be more easily adapted to new situations."
+md"A probability distribution is any function that assigns a number, referred to as probability, to (most[^1]) subsets of a sample space and also satisfies the axioms of probability, provided below.  It is common to think of probability as a number, but in fact it is a function that assigns probability to subsets of ``S``.  After presenting the Axioms of Probability, we will generalize probability to from finite sample spaces to countable and uncountable spaces.  Then we will discuss some more complicated examples of probability distributions, to help ensure that we come away with a general concept of probability that can be more easily applied to new situations."
 
 # ╔═╡ febc72ae-2ef6-484a-bc90-5844eeedae76
 md"## Probability, a Set Function"
 
 # ╔═╡ 2b0c948d-2eb1-461a-8999-0802b7e9e819
-md"A probability distribution is a function that applies sets, specifically a function that applies to (most) subsets of the sample space ``S``.  Hence it is a set function.  For an arbitrary subset ``A`` of ``S``, ``A \subseteq S``, we write
+md"A probability distribution is a function that applies to subsets of the sample space ``S``.  Hence it is a set function.  For an arbitrary subset ``A`` of ``S``, ``A \subseteq S``, we write
 
 $$\mathbb{P}[A] = p$$
 
@@ -64,7 +64,7 @@ md"## A Note on Notation"
 md"Statisticians have a bad habit of reusing the same name, namely the letter P which I write in bold as ``\mathbb{P}``, for different functions. In fact, we'll see this same issue again in the notebook on density functions."
 
 # ╔═╡ 0774a8f8-e6d1-44dc-b186-d481b713ba00
-md"There are an uncountable number of probability distributions.  It is common in the world of statistics to reference each one with ``\mathbb{P}``.  One hopes that the specific probability distribution of interest is clear from the context, but one also imagines that navigating such distinctions is more difficult when first learning this material."
+md"There are an uncountable number of probability distributions.  It is common in the world of statistics to reference each one with ``\mathbb{P}``.  One hopes that the specific probability distribution under discussion is clear from the context, but one also imagines that navigating such distinctions is more difficult when first learning this material."
 
 # ╔═╡ 33743bd0-0d79-4999-b93b-4d27d448b408
 md"## Axioms of Probability"
@@ -72,18 +72,18 @@ md"## Axioms of Probability"
 # ╔═╡ 410b2fff-0ed5-4ff4-82c1-bc3409ffd0af
 md"The three axioms of probability are
 
-1. ``\mathbb{P}[A] \geq 0`` for (most) ``A \subseteq S``,
+1. ``\mathbb{P}[A] \geq 0`` for (most[^1]) ``A \subseteq S``,
 2. ``\mathbb{P}[S] = 1``, and
 3. ``\mathbb{P}[\cup_n A_n] = \sum_{n} \mathbb{P}[A_n]`` where ``A_i \cap A_j = \emptyset`` and ``i \not= j``.
 "
 
 # ╔═╡ 1ad18652-cebf-4dfe-aa01-19834ba4b14a
-md"The first axiom says that probability is bounded below by zero.  This should make intuitive sense, since we reasonably believe that probability can not be negative.  The second axiom suggests that probability is bounded above by 1, but technically says that the probability assigned to the entire sample space is 1.  Since any given probability distribution only assigns probability to subsets of the sample space ``S``, of which ``S`` is a valid subset, we can not distribute more than 100% of our conserved quantity, known as probability.  The third axiom says that probability is assigned to a union of disjoint sets as the sum of the components of the union."
+md"The first axiom says that probability is bounded below by zero.  This should make intuitive sense, since we reasonably believe that probability can not be negative.  The second axiom suggests that probability is bounded above by ``1``, but technically says that the probability assigned to the entire sample space is ``1``.  Since any given probability distribution only assigns probability to subsets of the sample space ``S``, of which ``S`` is the biggest valid subset, we can not distribute more than 100% of our conserved quantity, known as probability.  The third axiom says that probability is assigned to a union of disjoint sets as the sum of the components of the union."
 
 # ╔═╡ 427adede-fe09-4c59-b8ca-df898c4a7924
-md"The third axiom of probability is relatively easy to visualize.  The entire box, let's call it ``A``, below is written as a union of disjoint sets ``A_n`` for ``n \in \{1, 2, 3, 4\}``,
+md"The third axiom of probability is often easier to interpret visually.  The entire box, let's call it ``A``, below is written as a union of disjoint sets ``A_n`` for ``n \in \{1, 2, 3, 4\}``,
 
-$$A = \cup_{n \in \{1, 2, 3, 4, 5\}} A_n.$$"
+$$A = A_1 \cup A_2 \cup A_3 \cup A_4 \cup A_5 = \cup_{n \in \{1, 2, 3, 4, 5\}} A_n.$$"
 
 # ╔═╡ 8358fab7-4b42-45ec-bcdf-661747dde8f7
 plot(0:5, t = :vline, xlimit = (0, 5),
@@ -102,36 +102,44 @@ md"Since the ``A_n`` are disjoint, we can apply the third axiom of probability t
 $$\mathbb{P}[A] = \mathbb{P}[\cup_{n \in \{1, 2, 3, 4, 5\}} A_n] = \mathbb{P}[A_1] + \mathbb{P}[A_2] + \mathbb{P}[A_3] + \mathbb{P}[A_4] + \mathbb{P}[A_5] = \sum_{n \in \{1, 2, 3, 4, 5\}} \mathbb{P}[A_n].$$"
 
 # ╔═╡ 59588307-aaa6-45ab-862b-759b9dfc6810
-md"## Generalizing Probability"
+md"## (Generalized) Probability"
 
 # ╔═╡ a91d6013-be1a-406d-a193-906e0c8d5a8c
 md"Probability distributions dictate the assignment of probability to arbitrary subsets of the sample space.  Only in the simplest of cases do probability calculations become calculations of the number of elements in the subset ``A`` relative to the number of elements in an enclosing space, which is often but not always the sample space ``S``, such as
 
 $$\mathbb{P}[A] = |A| / |S|.$$
 
-For instance, this definition immediately won't apply to uncountable sample spaces."
+Notice that this definition immediately won't apply to countable nor uncountable sample spaces."
 
 # ╔═╡ 272ce517-d9ec-4afe-b5c1-90d6c4c89899
 md"In general, probability is defined to be area under a probability distribution's  density function.  See the notebook on [TODO add link to] Density Functions for more details.  For now, we will assume that a density function of a probability distribution is the function that enables the assignment of probability to subsets of the sample space."
 
 # ╔═╡ f10cecb7-cb04-43ee-8db0-f623d99115c1
-md"Luckily, defining probability as area under a density function conforms to
-
-$$\mathbb{P}[A] = |A| / |S|$$
-
-whent ``\mathbb{P}`` represents a uniform distribution (of probability) over a finite sample space ``S``, and enables more complex definitions of probability.  Let's start with the fair die example from above."
+md"Luckily, defining probability as area under a density function conforms to ``\mathbb{P}[A] = |A| / |S|`` when ``\mathbb{P}`` represents a uniform distribution (of probability) over a finite sample space ``S``, and enables more complex definitions of probability.  Let's start with the fair die example from above."
 
 # ╔═╡ 26cdcadc-f212-4cd2-a159-c85fc1a6574f
-md"The plot below represents the density function for a fair die, which we will see in Section Examples is written in statistics notation as ``\text{Uniform}(1, 6)``."
+md"The plot below represents the density function for a fair die, which as we will see in Section Examples below is often written as ``\text{Uniform}(1, 6)``.  In order to calculate the probability of ``A = \{2, 3, 4\}``, we sum up the density function for this distribution
 
-# ╔═╡ 6f0da015-f70a-490c-b116-9b9204371f76
-md"We use this canonical image of area under a function as our starting point.  We will adapt this idea in a few specific ways so as to
+$$f(x) = 1/|S| = 1/6 \quad x \in S$$
 
-1. satisfy the Axioms of Probability, and
-2. expand the problem domain of probability distributions and thus statistics."
+across the elements of ``A``,
 
-# ╔═╡ 28dce3a3-63b4-4496-bf99-2779d29881d9
+$$\mathbb{P}[A] = \sum_{x \in A} f(x) = \sum_{x \in A} 1/6 = 3/6.$$
+"
 
+# ╔═╡ bde58343-0124-402d-9fef-fa3ee702d660
+md"In general, probability distributions dictate the assignments of probability to arbitrary subsets of the sample space, ``A \subseteq S`` by calculating area under their density function.  
+
+**(Generalized) Probability**.  Let ``f`` be the density function for probability distribution ``\mathbb{P}``, and let ``A \subseteq S``.  If ``S`` is finite or countable, then
+
+$$\mathbb{P}[A] = \sum_{x \in A} f(x),$$
+
+and if ``S`` is uncountable, then
+
+$$\mathbb{P}[A] = \int_{A} f(x) dx.$$"
+
+# ╔═╡ 4d186f7a-216c-4402-ba0e-9a6f4a43aa42
+md"Consider the gas station keypad example from above.  The density function for this distribution is shown in the plot below."
 
 # ╔═╡ 203f0879-875e-4a25-a7df-3c54f72ff41f
 begin
@@ -141,7 +149,7 @@ begin
 	y = 0:10
 	yfill = 6:9
 	p2 = plot(y, [last(gkp) for gkp in gaskeypad], t = :scatter,
-		xlabel = L"x", ylabel = L"g(x)", label = false)
+		xlabel = L"x", ylabel = L"f(x)", label = false)
 	for yf in yfill
 	 plot!(p2, [yf, yf], [0.0, gaskeypad[yf+1][2]], t = :line,
 			c = cols[1], linewidth = 2, label = false)
@@ -163,10 +171,21 @@ begin
 	p
 end
 
-# ╔═╡ f54cb70e-b6f1-44f8-b36c-01c6f373fa90
+# ╔═╡ a9ee7b15-ea90-4cc6-adfa-3c2453885656
+md"The gas station keypad distribution is a case of an unnamed, non-uniform probability distribution over a finite sample space, ``S = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}``.  In cases like this, it is common to represent the density function as a table of  values the density function takes on for each value ``x \in S``."
 
+# ╔═╡ 0d54a0a2-004f-4100-b14b-326c2e431602
+md"To find the probability of the set ``A = \{6, 7, 8, 9\}``, we sum the density function ``f`` across all values of ``x \in A`` as
 
-# ╔═╡ b9c057ef-bff2-479d-a38f-473b7ca4c309
+$$\mathbb{P}[\{6, 7, 8, 9\}] = \sum_{x \in \{6, 7, 8, 9\}} f(x) = 0.08 + 0.08 + 0.04 + 0.44 = 0.64$$"
+
+# ╔═╡ 6f0da015-f70a-490c-b116-9b9204371f76
+md"We use this canonical image of area under a function as our starting point.  We will adapt this idea in a few specific ways so as to
+
+1. satisfy the Axioms of Probability, and
+2. expand the problem domain of probability distributions and thus statistics."
+
+# ╔═╡ 28dce3a3-63b4-4496-bf99-2779d29881d9
 
 
 # ╔═╡ f52bc4fd-1a07-4963-8efc-f67152f76152
@@ -176,7 +195,7 @@ md"Alternatively, consider the density function ``g(x)`` from above.  There's no
 
 
 # ╔═╡ d2bca69d-353f-48d9-bde0-677892b3fa24
-md"## Examples"
+md"## Named Families of Probability Distributions"
 
 # ╔═╡ b284dddb-2da3-4e93-9ecb-b6592dcab087
 md"Many common probability distributions are grouped into named families.  Although, not all distributions are so classified.  For instance, the gas station keypad example above is an example of an unnamed probability distribution."
@@ -199,14 +218,13 @@ md"
 "
 
 # ╔═╡ 0d89f93b-3a3a-4c1b-8e63-552ed41c6d4c
-render_table(gkp) = @htl("""
-	<table><caption><h4>Gas Keypad Distribution</h4></caption>
-	<tbody>
-	<tr><td>Digit$(map(gaskeypad) do gkp @htl("<td>$(string(first(gkp)))") end)
-	<tr><td>Density$(map(gaskeypad) do gkp @htl("<td>$(string(last(gkp)))") end)</tbody></table>""")
+render_density(gkp, title) = @htl("""
+	<table><tbody><table><caption><h4>$title</h4></caption>
+	<tr><td>x $(map(gaskeypad) do gkp @htl("<td>$(string(first(gkp)))") end)
+	<tr><td>f(x) $(map(gaskeypad) do gkp @htl("<td>$(string(last(gkp)))") end)</tbody></table>""")
 
 # ╔═╡ 3ad2e477-ba5b-4676-b8d3-c99fa50b91d5
-render_table(gaskeypad)
+render_density(gaskeypad, "Gas Station Keypad Density Function")
 
 # ╔═╡ Cell order:
 # ╠═d8ed59fe-a83e-11eb-07f8-d7123a34a1c5
@@ -235,13 +253,15 @@ render_table(gaskeypad)
 # ╠═f10cecb7-cb04-43ee-8db0-f623d99115c1
 # ╠═26cdcadc-f212-4cd2-a159-c85fc1a6574f
 # ╠═483c1814-c485-4ac2-8940-8c0b3b68de59
+# ╠═bde58343-0124-402d-9fef-fa3ee702d660
+# ╠═4d186f7a-216c-4402-ba0e-9a6f4a43aa42
+# ╠═203f0879-875e-4a25-a7df-3c54f72ff41f
+# ╠═a9ee7b15-ea90-4cc6-adfa-3c2453885656
+# ╠═3ad2e477-ba5b-4676-b8d3-c99fa50b91d5
+# ╠═0d54a0a2-004f-4100-b14b-326c2e431602
 # ╠═6f0da015-f70a-490c-b116-9b9204371f76
 # ╠═28dce3a3-63b4-4496-bf99-2779d29881d9
-# ╠═203f0879-875e-4a25-a7df-3c54f72ff41f
-# ╠═f54cb70e-b6f1-44f8-b36c-01c6f373fa90
-# ╠═b9c057ef-bff2-479d-a38f-473b7ca4c309
 # ╠═f52bc4fd-1a07-4963-8efc-f67152f76152
-# ╠═3ad2e477-ba5b-4676-b8d3-c99fa50b91d5
 # ╠═a1b61767-02c5-4678-8cde-3b86cc30bbd7
 # ╠═d2bca69d-353f-48d9-bde0-677892b3fa24
 # ╠═b284dddb-2da3-4e93-9ecb-b6592dcab087
