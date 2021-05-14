@@ -22,6 +22,9 @@ md"# Probability Distributions"
 # ╔═╡ 4fd5c54c-4c43-454a-81dd-5ac7245feb85
 TableOfContents(; depth = 2)
 
+# ╔═╡ 7afab741-537c-4fdf-850d-aa211b6b13c3
+md"TODO see [https://betanalpha.github.io/assets/case_studies/probability_theory.html](https://betanalpha.github.io/assets/case_studies/probability_theory.html) for inspiration."
+
 # ╔═╡ cf85ab67-9d99-4551-93b6-db3494a3bc73
 md"## Introduction"
 
@@ -297,6 +300,9 @@ md"
 $$\mathbb{P}[ \, [0.25, 0.5] \, ] = \int_{\mathbb{R}} 5 * e^{(-5x)} 1_{[0.25, 0.5]}(x) dx$$
 "
 
+# ╔═╡ 991134ef-7ec7-46c7-ab07-e3eb5d7aea91
+md"TODO add properties like 1 - P[A] = P[A^c]"
+
 # ╔═╡ 07a816ec-d1bb-4720-b381-a493643e747d
 md"## Footnotes"
 
@@ -317,6 +323,7 @@ render_density(gaskeypad, "Gas Station Keypad Density Function")
 # ╔═╡ Cell order:
 # ╠═d8ed59fe-a83e-11eb-07f8-d7123a34a1c5
 # ╠═4fd5c54c-4c43-454a-81dd-5ac7245feb85
+# ╠═7afab741-537c-4fdf-850d-aa211b6b13c3
 # ╠═cf85ab67-9d99-4551-93b6-db3494a3bc73
 # ╠═46f5142e-369f-4c78-8d91-cd267933d8be
 # ╠═bbefd977-c075-4b0d-9376-64b4a0ad0d21
@@ -367,6 +374,7 @@ render_density(gaskeypad, "Gas Station Keypad Density Function")
 # ╠═fcf2db97-e9ae-4038-b1cc-d002ee77c4bc
 # ╠═250d013a-bc7c-4eb0-a1c4-7e6e13da3cda
 # ╠═0580a57c-e27c-4047-927b-20942f362717
+# ╠═991134ef-7ec7-46c7-ab07-e3eb5d7aea91
 # ╠═07a816ec-d1bb-4720-b381-a493643e747d
 # ╠═72b053b8-9327-4128-931e-95b3e9305571
 # ╠═0d89f93b-3a3a-4c1b-8e63-552ed41c6d4c
