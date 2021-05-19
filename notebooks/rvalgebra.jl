@@ -29,32 +29,42 @@ md"TODO This notebook is not titled well.  With some calculus-2 tools, we can fa
 md"## Function of a single distribution"
 
 # ╔═╡ e6451454-5383-44e2-8fe2-0d13c81de491
-md"Consider a distribution ``\mathbb{P}`` with distribution function ``F`` and density function ``f = F'``.  A bijective function ``h`` transforms ``F`` into a new distribution function ``G`` and thus creates a new distribution.  The distribution function ``G`` can be derived as follows.  
+md"Consider a distribution ``\mathbb{P}`` with distribution function ``F`` and density function ``f = F'``.  A bijective and increasing function ``h`` transforms ``F`` into a new distribution function ``G`` and thus creates a new distribution.  The distribution function ``G`` can be derived as follows.  
 
-Start by writing ``G`` in terms of ``f``, using ``h^{-1}``.
+By definition,
 
-$$G(y) = \int f(x) 1_{x \leq h^{-1}(y)} \mathrm{d}x$$"
+$$F(x) = \int f(s) 1_{(-\infty, x)}(s) \mathrm{d}s.$$
+
+By ``y = h(x)``, ``F`` transforms into ``G`` via the inverse ``h^{-1}``,
+
+$$G(y) = F(h^{-1}(y)) = \int f(s) 1_{(-\infty, h^{-1}(y))}(s) \mathrm{d}s.$$
+"
+
+# ╔═╡ 2d0bf95b-46d9-46d3-b60c-dfc9c9528c46
+md"If ``h`` were instead decreasing, then the inverse ``h^{-1}`` would incur a sign flip to give
+
+$$G(y) = F(h^{-1}(y)) = \int f(s) 1_{(h^{-1}(y), \infty)}(s) \mathrm{d}s.$$"
 
 # ╔═╡ 5eccf84b-338b-4f58-802f-f2836f7f0cc7
 md"The density function ``g`` associated with the distribution function ``G`` is found by taking the derivative with respect to ``y`` (and ignoring the possibly tricky interchange of integration and differentiation),
 
-$$g(y) = \int f(x) 1_{x = h^{-1}(y)} \left| \frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) \right| \mathrm{d}x.$$
+$$g(y) = \int f(s) 1_{\{h^{-1}(y)\}}(s) \left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y}(y) \right| \mathrm{d}s.$$
 
-Remember the chain rule. The absolute value ensures the density function ``g`` is non-negative.  The indicator function ``1_{x = h^{-1}(y)}`` equals ``1`` when ``x = h^{-1}(y)``, so we replace ``x`` with ``h^{-1}(y)`` to get
+The absolute value covers both cases where ``h`` is either increasing or decreasing.  The indicator function ``1_{\{h^{-1}(y)\}}`` equals ``1`` when ``s = h^{-1}(y)``, so we replace ``s`` with ``h^{-1}(y)`` to get
 
-$$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) \right| \int 1_{x = h^{-1}(y)} dx.$$
+$$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y}(y) \right| \int 1_{\{h^{-1}(y)\}} \mathrm{d}s.$$
 
-The integral of the Dirac delta function is ``1``, so that the density function of the distribution function ``G`` is 
+Here we can treat the indicator function defined on a particular point as the Diract delta function.  The integral of the Dirac delta function is ``1``, so that the density function of the distribution function ``G`` is 
 
 $$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) \right|.$$
 
-Geometrically, the chain rule here accounts for the fact that ``h`` (potentially) warps the space on which ``\mathbb{P}`` assigns probabilities.  The term ``\left| \frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) \right|`` ensures that the new density function ``g`` is an appropriate density function over this new space mapped by ``h``.
+Geometrically, the chain rule here accounts for the fact that ``h`` (potentially) warps the space on which ``\mathbb{P}`` assigns probabilities.  The term ``\left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y} (y) \right|`` ensures that the new density function ``g`` is an appropriate density function over this new space mapped by ``h``.
 "
 
 # ╔═╡ ab2544bb-29cc-49ce-8be0-45d9c187a6b9
-md"**Practice** Consider the ``\text{Uniform}(0, 1)`` distribution and the function ``h(x) = -\log{(x)}``.  The density function of this Uniform distribution is ``f(x) = 1_{(0, 1)}(x)``.  The inverse of ``h`` is ``h^{-1}(y) = e^{-y}`` and has derivative ``\frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) = -e^{-y}``.  Putting these pieces together we find
+md"**Practice** Consider the ``\text{Uniform}(0, 1)`` distribution and the function ``h(x) = -\log{(x)}``.  The density function of this Uniform distribution is ``f(x) = 1_{(0, 1)}(x)``.  The inverse of ``h`` is ``h^{-1}(y) = e^{-y}`` and has derivative ``\frac{\mathrm{d}h^{-1}}{\mathrm{d} y} (y) = -e^{-y}``.  Putting these pieces together we find
 
-$$g(y) = f(h^{-1}) \left| \frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) \right| = 1_{(0, 1)}(e^{-y}) |-e^{-y}|.$$
+$$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y} (y) \right| = 1_{(0, 1)}(e^{-y}) |-e^{-y}|.$$
 
 The indicator function equals ``1`` when ``0 \leq e^{-y} \leq 1``.  Manipulating the inequalities gives ``0 \leq y \leq \infty``.  Simplifying,
 
@@ -71,28 +81,32 @@ md"## Product"
 # ╔═╡ c5e0e915-d424-4b01-b0c3-bc5f2d85afd0
 md"For two independent distributions ``\mathbb{P}_x, \mathbb{P}_y`` with density functions ``f(x), f(y)``, the distribution function of their product can be found as
 
-$$F(z) = \int f(x) f(y) 1_{xy \leq z} \mathrm{d}x \mathrm{d}y.$$"
+$$F(z) = \int f(x) f(y) 1_{(-\infty,  z)}(xy) \mathrm{d}x \mathrm{d}y.$$"
 
 # ╔═╡ 23fc83b2-6604-4179-83c3-0ac1170fccb6
 md"The density function associated with the above distribution function is found by taking the derivative with respect to ``z``,
 
-$$f(z) = \int f(x) f(y) 1_{xy = z} \mathrm{d}x \mathrm{d}y.$$
+$$f(z) = \int f(x) f(y) 1_{\{z\}}(xy) \mathrm{d}x \mathrm{d}y.$$
 
-The indicator function ``1_{xy = z}`` equals ``1`` when ``y = z / x``, so replace ``f(y)`` with ``f_y(z / x)``, where the subscript ``y`` indicates this is the density function of the distribution ``\mathbb{P}_y``, to get
+The indicator function ``1_{\{z\}}(xy)`` equals ``1`` when ``z = xy`` or ``y = z / x``.  Replace ``f(y)`` with ``f_y(z / x)``, where the subscript ``y`` reminds us that this is the density function of the distribution ``\mathbb{P}_y``, to get
 
-$$f(z) = \int f(x) f_y(z/x) \mathrm{d}x \int 1_{xy = z} \mathrm{d}y.$$
+$$f(z) = \int f(x) f_y(z/x) \int 1_{\{z\}}(xy) \; \mathrm{d}x \mathrm{d}y.$$
 
 The Dirac delta function has a number of properties (see the Appendix) which allow us to simplify the expression for ``f(z)``.  The scaling property gives
 
-$$1_{xy = z} = \delta(z - xy) = \frac{1}{|x|}\delta(z/x - y),$$
+$$1_{\{z\}}(xy) = \delta(z - xy) = \frac{1}{|x|}\delta(z/x - y),$$
 
 and the sifting property dictates
 
-$$\int_{\mathbb{R}} \delta(z - y) \mathrm{d}y = 1.$$
+$$\int_{\mathbb{R}} \delta(s - y) \mathrm{d}y = 1.$$
 
 Putting these together we find
 
-$$f(z) = \int f(x) f_y(z/x) \mathrm{d}x \int 1_{xy = z} \mathrm{d}y = \int f(x) f_y(z/x) \frac{1}{|x|}\mathrm{d}x.$$"
+$$\int 1_{\{z\}}(xy) \mathrm{d}y  = \frac{1}{|x|}.$$
+
+The density function associated with the product of two distributions is
+
+$$f(z) = \int f(x) f_y(z/x) \frac{1}{|x|}\mathrm{d}x.$$"
 
 # ╔═╡ 1513b366-0fd0-49f9-8e8d-1ba8db6eb710
 md"**Practice** Notice that ``f(z)`` above is inherently different than simply multiplying two density functions together.  The product of two independent density functions defines a new density function, from which one could define the so called joint distribution, a distribution of two variables.  On the other hand, the product of two probability distributions, as described above, defines a new distribution of just one variable.  Let's consider an example."
@@ -236,6 +250,7 @@ $$\int \delta(x) \mathrm{d}x = 1.$$
 # ╠═48b5b560-f2e7-4048-82cb-9fba1e666929
 # ╠═133705ee-5679-4ead-ba3e-f4fdf7479b7a
 # ╠═e6451454-5383-44e2-8fe2-0d13c81de491
+# ╠═2d0bf95b-46d9-46d3-b60c-dfc9c9528c46
 # ╠═5eccf84b-338b-4f58-802f-f2836f7f0cc7
 # ╠═ab2544bb-29cc-49ce-8be0-45d9c187a6b9
 # ╠═6d2f3686-1f33-4d5b-9a27-3fdad186b4c6
