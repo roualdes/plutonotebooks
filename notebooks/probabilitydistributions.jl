@@ -20,7 +20,7 @@ using LaTeXStrings
 md"# Probability Distributions"
 
 # ╔═╡ 4fd5c54c-4c43-454a-81dd-5ac7245feb85
-TableOfContents(; depth = 2)
+TableOfContents()
 
 # ╔═╡ 7afab741-537c-4fdf-850d-aa211b6b13c3
 md"TODO see [https://betanalpha.github.io/assets/case_studies/probability_theory.html](https://betanalpha.github.io/assets/case_studies/probability_theory.html) for inspiration."
@@ -109,6 +109,12 @@ plot(0:5, t = :vline, xlimit = (0, 5),
 md"Since the ``A_n`` are disjoint, we can apply the third axiom of probability to find the probability of ``A``,
 
 $$\mathbb{P}[A] = \mathbb{P}[\cup_{n \in \{1, 2, 3, 4, 5\}} A_n] = \mathbb{P}[A_1] + \mathbb{P}[A_2] + \mathbb{P}[A_3] + \mathbb{P}[A_4] + \mathbb{P}[A_5] = \sum_{n \in \{1, 2, 3, 4, 5\}} \mathbb{P}[A_n].$$"
+
+# ╔═╡ a2b415f6-5724-4423-8ddf-41f8b659d9d0
+md"## Discrete and Continuous Distributions"
+
+# ╔═╡ 255d6811-0393-4385-befc-ada60a2d47ff
+
 
 # ╔═╡ a1b61767-02c5-4678-8cde-3b86cc30bbd7
 md"## Examples"
@@ -344,6 +350,8 @@ render_density(gaskeypad, "Gas Station Keypad Density Function")
 # ╠═427adede-fe09-4c59-b8ca-df898c4a7924
 # ╠═8358fab7-4b42-45ec-bcdf-661747dde8f7
 # ╠═9612e871-4b10-4cff-9215-4da903d33d06
+# ╠═a2b415f6-5724-4423-8ddf-41f8b659d9d0
+# ╠═255d6811-0393-4385-befc-ada60a2d47ff
 # ╠═a1b61767-02c5-4678-8cde-3b86cc30bbd7
 # ╠═b284dddb-2da3-4e93-9ecb-b6592dcab087
 # ╠═fcfc666e-758a-48e5-8b53-99e749b6231b
