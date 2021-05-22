@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.14.5
 
 using Markdown
 using InteractiveUtils
@@ -32,7 +32,7 @@ md"# Distribution Functions"
 TableOfContents()
 
 # ╔═╡ 48ac3572-5764-452c-8f8d-a4997c2da2ff
-md"The (cumulative) distribution function associated with a probability distribution ``\mathbb{P}`` is the function. ``F: \mathbb{R} \to [0, 1]`` defined by
+md"The (cumulative) distribution function associated with a probability distribution ``\mathbb{P}`` is the function ``F: \mathbb{R} \to [0, 1]`` defined by
 
 $$F(x) = \mathbb{P}[1_{(-\infty, x)}]$$
 
@@ -41,12 +41,12 @@ for ``x \in \mathbb{R}``."
 # ╔═╡ 050a5496-ec9f-4a02-be94-cbb53bbc1316
 md"Although not all probability distributions admit density functions, these notebooks will take for granted the existence of a distribution's density function.  When the distribution ``\mathbb{P}`` is discrete, then the distribution function is defined in terms of the density function as
 
-$$F(x) = \mathbb{P}[1_{(-\infty, x)}] = \sum_{\mathbb{N}} f(s) 1_{(-\infty, x)}.$$
+$$F(x) = \mathbb{P}[1_{(-\infty, x)}] = \sum_{s \in \mathbb{N}} f(s) 1_{(-\infty, x)}(s).$$
 
 
 When the distribution ``\mathbb{P}`` is continuous, then the distribution function is defined in terms of the density function as
 
-$$F(x) = \mathbb{P}[1_{(-\infty, x)}] = \int_{\mathbb{R}} f(s) 1_{(-\infty, x)} \mathrm{d}s.$$
+$$F(x) = \mathbb{P}[1_{(-\infty, x)}] = \int_{\mathbb{R}} f(s) 1_{(-\infty, x)}(s) \mathrm{d}s.$$
 
 
 The benefit of the above definition given only in terms of the distribution ``\mathbb{P}`` is that it equally applies to both discrete and continuous distributions.
