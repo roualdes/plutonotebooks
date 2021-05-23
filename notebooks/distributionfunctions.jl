@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.5
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -41,26 +41,26 @@ for ``x \in \mathbb{R}``."
 # ╔═╡ 050a5496-ec9f-4a02-be94-cbb53bbc1316
 md"Although not all probability distributions admit density functions, these notebooks will take for granted the existence of a distribution's density function.  When the distribution ``\mathbb{P}`` is discrete, then the distribution function is defined in terms of the density function as
 
-$$F(x) = \mathbb{P}[1_{(-\infty, x)}] = \sum_{s \in \mathbb{N}} f(s) 1_{(-\infty, x)}(s).$$
+$$F(x) = \mathbb{P}[1_{(-\infty, x)}] = \sum_{s \in \mathbb{N}} 1_{(-\infty, x)}(s) f(s) .$$
 
 
 When the distribution ``\mathbb{P}`` is continuous, then the distribution function is defined in terms of the density function as
 
-$$F(x) = \mathbb{P}[1_{(-\infty, x)}] = \int_{\mathbb{R}} f(s) 1_{(-\infty, x)}(s) \mathrm{d}s.$$
+$$F(x) = \mathbb{P}[1_{(-\infty, x)}] = \int_{\mathbb{R}} 1_{(-\infty, x)}(s) f(s) \mathrm{d}s.$$
 
 
 The benefit of the above definition given only in terms of the distribution ``\mathbb{P}`` is that it equally applies to both discrete and continuous distributions.
 "
 
 # ╔═╡ c76115da-cac5-4dab-8f22-a1040ecbac02
-md"It can help to visualize the definition of a distribution function for continuous distribution.  For a continuous distribution, the distribution function takes on the value of the area under the density function up to the point ``x``."
+md"It can help to visualize the definition of a distribution function for continuous distribution.  For a continuous distribution, the distribution function takes on the value equal to the area under the density function up to the point ``x``."
 
 # ╔═╡ ccf41aeb-853d-4392-b429-605cba06931e
 begin
-	λ = @bind lambda html"<input type='range' min='0.1' max='5.0' step='0.1' value='0.0'>"
-	xs = @bind x html"<input type='range' min='0.1' max='5.0' step='0.1' value='0.0'>"
+	λ = @bind lambda html"<input type='range' min='0.1' max='5.0' step='0.1' value='2'>"
+	xs = @bind x html"<input type='range' min='0.1' max='15.0' step='0.1' value='1.0'>"
 	md"""**distribution parameter:**
-	$$\lambda$$: $λ
+	``\lambda``: $λ
 	$$x$$: $xs
 	"""
 end
@@ -71,38 +71,36 @@ begin
 	E = Exponential(lambda)
 	m = lambda
 	mxs = m + 5 * m
-	s = 0:0.05:mxs
-	sfill = 0:0.05:x
+	s = 0:0.01:mxs
+	sfill = 0:0.01:x
 	ppdf = plot(s, pdf.(E, s), 
 		xlabel = L"s", ylabel = L"f(s)", 
-		title = "Density function", label = "")
+		title = "Density function, λ = $lambda", label = "",
+		xlimits = (-0.1, mxs))
+	plot!(ppdf, [-0.1, 0], [0, 0], 
+		t = :line, color = cols[1], label = false)
 	plot!(ppdf, sfill, pdf.(E, sfill), fill = (0, cols[1]), 
 		color = cols[1], label = "")
 	plot!(ppdf, [x, x], [0, pdf(E, x)], 
 		t = :line, color = :black, linestyle = :dash, label = L"x = %$(x)")
 end
 
-# ╔═╡ 8ce4b9c0-f098-413b-b170-de89e2abe4f0
-mxs
-
 # ╔═╡ e68e93b9-d415-452c-b026-4b92916bc08e
 md"Alternatively, and more commonly, we can plot the distribution function itself."
 
 # ╔═╡ 033e61a2-b09f-4bf4-89c6-a05c503fa54a
 begin
-	z = -2:0.1:mxs
+	z = -2:0.01:mxs
 	pcdf = plot(z, cdf.(E, z), 
 		xlabel = L"s", ylabel = L"F(s)",
-		title = "Distribution function", label = "")
+		title = "Distribution function, λ = $lambda", label = "",
+		xlimits = (-0.1, mxs))
 	q = round(cdf(E, x); digits = 2)
 	plot!(pcdf, [x, x], [0, q],
 			t = :line, c = :black, linestyle = :dash, label = L"x = %$(x)")
 	plot!(pcdf, [-2, x], [q, q],
 			t = :line, c = :black, label = L"F(x) = %$(q)")
 end
-
-# ╔═╡ d43ed5a1-17dc-4f93-8c6a-3f7349daba6d
-
 
 # ╔═╡ Cell order:
 # ╠═9deede7c-bb1a-11eb-08ae-f5290ff98dbf
@@ -112,10 +110,8 @@ end
 # ╠═c76115da-cac5-4dab-8f22-a1040ecbac02
 # ╠═1ea1daa3-99ea-4a41-876a-e19c7ef6bce7
 # ╠═ccf41aeb-853d-4392-b429-605cba06931e
-# ╠═8ce4b9c0-f098-413b-b170-de89e2abe4f0
 # ╠═e68e93b9-d415-452c-b026-4b92916bc08e
 # ╠═033e61a2-b09f-4bf4-89c6-a05c503fa54a
-# ╠═d43ed5a1-17dc-4f93-8c6a-3f7349daba6d
 # ╠═25708f4a-d8cf-4173-b91f-b26d376c6e63
 # ╠═0b361845-67f2-4a04-abfd-3cce4b90702b
 # ╠═40342b64-c8aa-4f5c-b6bf-3351bb7f42de

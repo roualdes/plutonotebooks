@@ -4,11 +4,23 @@
 using Markdown
 using InteractiveUtils
 
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    quote
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        el
+    end
+end
+
 # ╔═╡ 82eb253a-2378-4074-9dab-4cb3c7eea868
 using PlutoUI
 
 # ╔═╡ e3f5a522-6051-489e-9f72-89d9ecfc9b2c
 using StatsPlots
+
+# ╔═╡ 43988eeb-0680-4b3d-8091-1d01bda09edf
+using Distributions
 
 # ╔═╡ bf81ee3b-dd04-4983-9f2e-b52badad1da1
  using HypertextLiteral
@@ -35,7 +47,7 @@ md"Probability is a conserved quantity distributed over a set ``S``.  A probabil
 md"Probability distributions can be divided into two general classes.  Probability distributions defined on finite or countable sample spaces are called **discrete probability distributions**.  Probability distributions defined on uncountable sample spaces are called **continuous probability distributions**."
 
 # ╔═╡ 77d6dfbc-703d-4752-97b9-a4f11cc89e78
-md"We motivate probability distributions by giving some quick and simple examples.  Hopefully, these examples will help you see what we mean when we say probability is distributed over a sample space."
+md"We motivate probability distributions by giving some quick and simple examples of discrete probability distributions.  Hopefully, these examples will help you see what we mean when we say probability is distributed over a sample space."
 
 # ╔═╡ 57d26450-bb69-46b2-93a8-bbee93c91436
 md"**Example: Gas Station Keypads**.  Imagine you are at a gas station, about to enter the zip code associated with your credit card.  Have you ever noticed that the digits of the local zip codes are often more worn than the other digits?  In fact, the wear on the keypad describes a probability distribution over the sample space ``S = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}``.  Probability is higher for, or distributed more to, the numbers of the digits of the local zip codes, and is lower for, or distributed less to, the other numbers.  Further, we should expect repeated numbers within the local zip codes to have higher probability than less common numbers of the local zip codes."
@@ -114,7 +126,7 @@ $$\mathbb{P}[A] = \mathbb{P}[\cup_{n \in \{1, 2, 3, 4, 5\}} A_n] = \mathbb{P}[A_
 md"## Discrete and Continuous Distributions"
 
 # ╔═╡ 255d6811-0393-4385-befc-ada60a2d47ff
-
+md"A probability distribution ``\mathbb{P}`` defined on ``S`` is **continuous** if ``\mathbb{P}[\{x\}] = 0`` for all ``x \in S``.  In these notebooks a distribution will generally be continuous when ``S`` is uncountable.  On the other hand, we will call a distribution **discrete** when it is defined on a countable (or finite) sample space.  We will largely ignore distributions that have both continuous and discrete components."
 
 # ╔═╡ a1b61767-02c5-4678-8cde-3b86cc30bbd7
 md"## Examples"
@@ -211,11 +223,11 @@ md"In general, probability distributions dictate the assignment of probability t
 
 **(Generalized) Probability**.  Let ``f`` be the density function for probability distribution ``\mathbb{P}``, and let ``A \subseteq S``.  If ``S`` is finite or countable, then
 
-$$\mathbb{P}[A] = \sum_{x \in S} f(x) 1_A(x),$$
+$$\mathbb{P}[{A}] = \sum_{x \in S} 1_A(x) f(x),$$
 
 and if ``S`` is uncountable, then
 
-$$\mathbb{P}[A] = \int_{S} f(x) 1_A(x) dx.$$"
+$$\mathbb{P}[A] = \int_{S} 1_A(x) f(x) dx.$$"
 
 # ╔═╡ f10cecb7-cb04-43ee-8db0-f623d99115c1
 md"A plot helps us see that all the probability distributions above conform to the area under a density function idea.  Consider the fair die example from above, namely the Uniform distribution defined on ``S = \{1, 2, 3, 4, 5, 6\}``, where ``\mathbb{P}[A] = |A| / |S|`` for ``A \subseteq S``.  The density function of this probability distribution is displayed below, with the area under the density function for ``A = \{2, 3, 4\}`` drawn in blue."
@@ -236,15 +248,15 @@ md"Notice this formulate exactly recovers the probability assigned to the set ``
 $$\mathbb{P}[\{2, 3, 4\}] = \frac{|\{2, 3, 4\}|}{|\{1, 2, 3, 4, 5, 6\}|} = 3/6.$$"
 
 # ╔═╡ 34590131-c5fe-4fc4-85a8-eb9dc02f0214
-md"Much of the confusion between probability distributions and density functions arises from the fact that probability distributions, defined on finite or countable sample spaces, are equivalent to their density function representation when evaluated on singletons.  Imagine the set ``A \subseteq S`` to have one element, where we let the element be any singl eelement of ``S``, like we normally think of the variable ``x``,  but let's call this element ``a`` so we don't get lost in ``x``s.  Let ``A = \{a\}``, then
+md"Much of the confusion between probability distributions and density functions arises from the fact that discrete probability distributions are equivalent to their density function representation when evaluated on singletons.  Imagine the set ``A \subseteq S`` to have one element, where we let the element be any single element of ``S``, like we normally think of the variable ``x``,  but let's call this element ``a`` so we don't get lost in ``x``s.  Let ``A = \{a\}``, then
 
-$$\mathbb{P}[A] = \mathbb{P}[\{a\}] = \sum_{x \in A} f(x) = f(a)$$.
+$$\mathbb{P}[A] = \mathbb{P}[\{a\}] = \sum_{x \in A} f(x) = f(a).$$
 
 We could have just as easily called the single element of ``A`` the letter ``x`` and written
 
 $$\mathbb{P}[\{x\}] = f(x),$$
 
-which highlights the source of the confusion. Alas, this only works for probability assignments of singletons for probability distributions defined on finite or countable sample spaces."
+which highlights the source of the confusion, since for continuous distributions ``\mathbb{P}[\{x\}] = 0`` for all ``x \in S``. Alas, distribution functions are only equivalent to density functions for probability assignments of singletons for discrete probability distributions."
 
 # ╔═╡ 4d186f7a-216c-4402-ba0e-9a6f4a43aa42
 md"Consider the gas station keypad example from above.  The density function for this distribution is shown in the plot below."
@@ -280,7 +292,7 @@ begin
 end
 
 # ╔═╡ a9ee7b15-ea90-4cc6-adfa-3c2453885656
-md"The gas station keypad distribution is a case of an unnamed, non-uniform probability distribution over a finite sample space, ``S = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}``.  In cases like this, it is common to represent the density function as a table of  values the density function takes on for each value ``x \in S``."
+md"The gas station keypad distribution is a case of an unnamed, non-uniform discrete probability distribution over a finite sample space, ``S = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}``.  In cases like this, it is common to represent the density function as a table of values the density function takes on for each value ``x \in S``."
 
 # ╔═╡ 0d54a0a2-004f-4100-b14b-326c2e431602
 md"To find the probability of the set ``A = \{6, 7, 8, 9\}``, we sum the density function ``f`` across all values of ``x \in A`` as
@@ -288,26 +300,58 @@ md"To find the probability of the set ``A = \{6, 7, 8, 9\}``, we sum the density
 $$\mathbb{P}[\{6, 7, 8, 9\}] = \sum_{x \in \{6, 7, 8, 9\}} f(x) = 0.08 + 0.08 + 0.04 + 0.44 = 0.64$$"
 
 # ╔═╡ fcf2db97-e9ae-4038-b1cc-d002ee77c4bc
-md"To really emphasize the distinction between a probability distribution and its density function, consider a continuous distribution.  The Exponential distribution's density function is the integrand, while the probability function of the distribution is the right hand side."
+md"To really emphasize the distinction between a probability distribution and its density function, consider the Exponential distribution below.  The Exponential distribution is a continuous distribution."
+
+# ╔═╡ 6098cb1f-0e25-45b9-90a3-080fb5499521
+begin
+	λ = @bind lambda html"<input type='range' min='0.1' max='5.0' step='0.1' value='1'>"
+	md"""**Exponential distribution parameter**
+	``\lambda``: $λ
+	"""
+end
+
+# ╔═╡ 6600d975-4f77-4a77-8b4a-15ae078bdd65
+# TODO clean up 1 / rate vs rate issue for Exponential distribution; which definition, Distribution.jl or Stan?
 
 # ╔═╡ 250d013a-bc7c-4eb0-a1c4-7e6e13da3cda
 begin
-	exponential(x, lambda) = lambda * exp(-lambda * x)
-	l = 5
-	z = 1e-5:0.05:1/l + 5/l
-	zfill = 0.25:0.05:0.5
-	pexp =	plot(z, exponential.(z, l), label = false)
-	plot!(pexp, zfill, exponential.(zfill, l), fill = (0, cols[1]), 
-		label = false, color = cols[1])
+	E = Exponential(lambda)
+	mxs = lambda + 5 * lambda
+	z = 0:0.01:mxs
+	zfill = 0.25:0.01:1
+	pexp =	plot(z, pdf.(E, z), label = false)
+	plot!(pexp, zfill, pdf.(E, zfill), fill = (0, cols[1]), 
+		label = false, color = cols[1],
+		title = "Density function, λ = $lambda",
+		xlabel = L"x", ylabel = L"f(x \; | \lambda)")
 end
 
-# ╔═╡ 0580a57c-e27c-4047-927b-20942f362717
-md"
-$$\mathbb{P}[ \, [0.25, 0.5] \, ] = \int_{\mathbb{R}} 5 * e^{(-5x)} 1_{[0.25, 0.5]}(x) dx$$
-"
+# ╔═╡ 41d3af1d-2b0b-4cd4-9477-86254c34da3c
+md"The Exponential distribution, with parameter ``\lambda``, has density function
+
+$$f(x | \lambda) = \lambda e^{-\lambda x} 1_{(0, \infty)}(x).$$
+
+The probability of the interval ``A = [0.25, 1.0]`` is defined as the area under the density function within the set ``A``. Notice that the density function shows up within the integrand, while the probability distribution is on the left hand side of the following equation
+
+$$\mathbb{P}[(0.25, 1.0)] = \int 1_{(0.25, 1.0)}(s) \cdot 5 e^{-5s}1_{(0, \infty)}(s) \mathrm{d}s.$$
+
+Remember that for continuous distributions ``\mathbb{P}[\{x\}] = 0`` for all ``x \in S``, so that ``\mathbb{P}[\{0.25\}] = 0`` and ``\mathbb{P}[\{1.0\}] = 0.``  This implies ``\mathbb{P}[(0.25, 1.0)] = \mathbb{P}[[0.25, 1.0]].``"
+
+# ╔═╡ 663bd725-53d1-4213-be62-574e13be34bf
+md"## Some Properties"
 
 # ╔═╡ 991134ef-7ec7-46c7-ab07-e3eb5d7aea91
-md"TODO add properties like 1 - P[A] = P[A^c]"
+md"TODO add useful properties"
+
+# ╔═╡ 34a459bf-7859-433a-861c-58c31611baa7
+md"For any set ``A \subseteq S``
+
+$$\mathbb{P}[A] = 1 - \mathbb{P}[A^c].$$"
+
+# ╔═╡ 37b44412-519f-45e2-bd08-c171fdfbf204
+md"The empty set ``\emptyset = \{ \}`` always has zero probability,
+
+$$\mathbb{P}[\emptyset] = 0.$$"
 
 # ╔═╡ 07a816ec-d1bb-4720-b381-a493643e747d
 md"## Footnotes"
@@ -380,13 +424,19 @@ render_density(gaskeypad, "Gas Station Keypad Density Function")
 # ╠═3ad2e477-ba5b-4676-b8d3-c99fa50b91d5
 # ╠═0d54a0a2-004f-4100-b14b-326c2e431602
 # ╠═fcf2db97-e9ae-4038-b1cc-d002ee77c4bc
+# ╠═6098cb1f-0e25-45b9-90a3-080fb5499521
+# ╠═6600d975-4f77-4a77-8b4a-15ae078bdd65
 # ╠═250d013a-bc7c-4eb0-a1c4-7e6e13da3cda
-# ╠═0580a57c-e27c-4047-927b-20942f362717
+# ╠═41d3af1d-2b0b-4cd4-9477-86254c34da3c
+# ╠═663bd725-53d1-4213-be62-574e13be34bf
 # ╠═991134ef-7ec7-46c7-ab07-e3eb5d7aea91
+# ╠═34a459bf-7859-433a-861c-58c31611baa7
+# ╠═37b44412-519f-45e2-bd08-c171fdfbf204
 # ╠═07a816ec-d1bb-4720-b381-a493643e747d
 # ╠═72b053b8-9327-4128-931e-95b3e9305571
 # ╠═0d89f93b-3a3a-4c1b-8e63-552ed41c6d4c
 # ╠═82eb253a-2378-4074-9dab-4cb3c7eea868
 # ╠═e3f5a522-6051-489e-9f72-89d9ecfc9b2c
+# ╠═43988eeb-0680-4b3d-8091-1d01bda09edf
 # ╠═bf81ee3b-dd04-4983-9f2e-b52badad1da1
 # ╠═8261efb7-0e4f-4866-92cb-50b0d1052d5c
