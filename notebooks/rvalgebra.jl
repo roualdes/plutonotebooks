@@ -38,7 +38,7 @@ By definition,
 
 $$F(x) = \int f(s) 1_{(-\infty, x)}(s) \mathrm{d}s.$$
 
-By ``y = h(x)``, ``F`` transforms into ``G`` via the inverse ``h^{-1}``,
+Take ``y = h(x)``, so that ``F`` transforms into ``G`` via the inverse ``h^{-1}``,
 
 $$G(y) = F(h^{-1}(y)) = \int f(s) 1_{(-\infty, h^{-1}(y))}(s) \mathrm{d}s.$$
 "
@@ -55,13 +55,13 @@ $$g(y) = \int f(s) 1_{\{h^{-1}(y)\}}(s) \left| \frac{\mathrm{d}h^{-1}}{\mathrm{d
 
 The absolute value covers both cases where ``h`` is either increasing or decreasing.  The indicator function ``1_{\{h^{-1}(y)\}}`` equals ``1`` when ``s = h^{-1}(y)``, so we replace ``s`` with ``h^{-1}(y)`` to get
 
-$$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y}(y) \right| \int 1_{\{h^{-1}(y)\}} \mathrm{d}s.$$
+$$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y}(y) \right| \int 1_{\{h^{-1}(y)\}}(s) \mathrm{d}s.$$
 
 Here we can treat the indicator function defined on a particular point as the Dirac delta function.  The integral of the Dirac delta function is ``1``, so that the density function of the distribution function ``G`` is 
 
 $$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) \right|.$$
 
-Geometrically, the chain rule here accounts for the fact that ``h`` (potentially) warps the space on which ``\mathbb{P}`` assigns probabilities.  The term ``\left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y} (y) \right|`` ensures that the new density function ``g`` is an appropriate density function over this new space mapped by ``h``.
+Geometrically, the chain rule accounts for the fact that ``h`` (potentially) warps the space on which ``\mathbb{P}`` assigns probabilities.  The term ``\left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y} (y) \right|`` ensures that the new density function ``g`` is an appropriate density function over this new space mapped by ``h``.
 "
 
 # ╔═╡ ab2544bb-29cc-49ce-8be0-45d9c187a6b9
@@ -189,7 +189,8 @@ end
 begin
 	x = 0:0.1:3
 	y = 0:0.1:4
-	wireframe(x, y, f, alpha = 0.0)
+	wireframe(x, y, f, alpha = 0.0, 
+		xlabel = L"x", ylabel = L"y", zlabel = L"f(x, y)")
 end
 
 # ╔═╡ f6f81c53-ca48-4b6d-8c12-72ceb8bac007
