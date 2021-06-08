@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.14.7
 
 using Markdown
 using InteractiveUtils
@@ -15,6 +15,9 @@ using StatsPlots
 
 # ╔═╡ dafd1e7b-a4ba-4854-bcd3-3b266dc58a4a
 using LaTeXStrings
+
+# ╔═╡ 56488ebe-0d85-455e-a276-764e3b208795
+using HypertextLiteral
 
 # ╔═╡ 675b7996-b2ab-11eb-378f-e5182b4b1e42
 md"# Manipulations? of Distributions"
@@ -54,7 +57,7 @@ The absolute value covers both cases where ``h`` is either increasing or decreas
 
 $$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y}(y) \right| \int 1_{\{h^{-1}(y)\}} \mathrm{d}s.$$
 
-Here we can treat the indicator function defined on a particular point as the Diract delta function.  The integral of the Dirac delta function is ``1``, so that the density function of the distribution function ``G`` is 
+Here we can treat the indicator function defined on a particular point as the Dirac delta function.  The integral of the Dirac delta function is ``1``, so that the density function of the distribution function ``G`` is 
 
 $$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) \right|.$$
 
@@ -81,35 +84,49 @@ md"## Product"
 # ╔═╡ c5e0e915-d424-4b01-b0c3-bc5f2d85afd0
 md"For two independent distributions ``\mathbb{P}_x, \mathbb{P}_y`` with density functions ``f(x), f(y)``, the distribution function of their product can be found as
 
-$$F(z) = \int f(x) f(y) 1_{(-\infty,  z)}(xy) \mathrm{d}x \mathrm{d}y.$$"
+$$F(z) = \int \int f(x) f(y) 1_{(-\infty,  z)}(xy) \mathrm{d}x \mathrm{d}y.$$"
 
 # ╔═╡ 23fc83b2-6604-4179-83c3-0ac1170fccb6
-md"The density function associated with the above distribution function is found by taking the derivative with respect to ``z``,
+md"The density function associated with the above distribution function is found by taking the derivative of ``F(z)`` with respect to ``z``,
 
-$$f(z) = \int f(x) f(y) 1_{\{z\}}(xy) \mathrm{d}x \mathrm{d}y.$$
+$$F'(z) = f(z) = \frac{\mathrm{d}}{\mathrm{d}z} \int \int f(x) f(y) 1_{(-\infty,  z)}(xy) \mathrm{d}x \mathrm{d}y.$$
 
-The indicator function ``1_{\{z\}}(xy)`` equals ``1`` when ``z = xy`` or ``y = z / x``.  Replace ``f(y)`` with ``f_y(z / x)``, where the subscript ``y`` reminds us that this is the density function of the distribution ``\mathbb{P}_y``, to get
+We again ignore the possibly tricky business of interchanging differntiaton with integration to get
 
-$$f(z) = \int f(x) f_y(z/x) \int 1_{\{z\}}(xy) \; \mathrm{d}x \mathrm{d}y.$$
+$$f(z) = \int \int f(x) f(y) \frac{\mathrm{d}}{\mathrm{d}z}  1_{(-\infty,  z)}(xy) \mathrm{d}x \mathrm{d}y.$$
 
-The Dirac delta function has a number of properties (see the Appendix) which allow us to simplify the expression for ``f(z)``.  The scaling property gives
+Since the derivative of the indicator function ``1_{(-\infty,  z)}(xy)`` is infinite when ``z = xy`` and ``0`` otherwise, we put in place of the derivative of the indicator function the Dirac delta function (see the [Appendix](#Appendix))
 
-$$1_{\{z\}}(xy) = \delta(z - xy) = \frac{1}{|x|}\delta(z/x - y),$$
 
-and the sifting property dictates
+$$f(z) = \int \int f(x) f(y) \delta(z - xy) \mathrm{d}x \mathrm{d}y.$$
+
+The Dirac delta function ``\delta(z - xy)`` \"equals\" ``+\infty`` when ``z = xy`` ( ``y = z / x``) and ``0`` otherwise.  Replace ``f(y)`` with ``f_y(z / x)``, where the subscript ``y`` reminds us that this is the density function of the distribution ``\mathbb{P}_y``, to get
+
+$$f(z) = \int f(x) f_y(z/x) \int \delta(z - xy) \; \mathrm{d}x \mathrm{d}y.$$"
+
+# ╔═╡ 3fc3f877-5c16-4cf9-bb32-05fe53287eac
+md"The Dirac delta function has a number of properties (see the [Appendix](#Appendix)) which allow us to simplify the expression for ``f(z)``."
+
+# ╔═╡ 042be5df-5b96-4485-8d1e-3ccbe5d46fc6
+md"The scaling property of the Dirac delta function is
+
+$$\delta(z - xy) = \frac{1}{|x|}\delta(z/x - y).$$
+
+The sifting property dictates
 
 $$\int_{\mathbb{R}} \delta(s - y) \mathrm{d}y = 1.$$
 
 Putting these together we find
 
-$$\int 1_{\{z\}}(xy) \mathrm{d}y  = \frac{1}{|x|}.$$
+$$\int \delta(z - xy) \mathrm{d}y  = \frac{1}{|x|}.$$"
 
-The density function associated with the product of two distributions is
+# ╔═╡ 3aaf7632-b1b2-4432-afee-95de2de87e0b
+md"Based on the properties of the Dirac delta function, the density function associated with the product of two distributions is
 
 $$f(z) = \int f(x) f_y(z/x) \frac{1}{|x|}\mathrm{d}x.$$"
 
 # ╔═╡ 1513b366-0fd0-49f9-8e8d-1ba8db6eb710
-md"**Practice** Notice that ``f(z)`` above is inherently different than simply multiplying two density functions together.  The product of two independent density functions defines a new density function, from which one could define the so called joint distribution, a distribution of two variables.  On the other hand, the product of two probability distributions, as described above, defines a new distribution of just one variable.  Let's consider an example."
+md"**Example** Notice that ``f(z)`` above is inherently different than simply multiplying two density functions together.  The product of two independent density functions defines a new density function, from which one could define the so called joint distribution, a distribution of two variables.  On the other hand, the product of two probability distributions, as described above, defines a new distribution of just one variable.  Let's consider an example."
 
 # ╔═╡ 34ea06c8-0bd1-4cf8-8d4c-f321d20d37d6
 md"Let ``\mathbb{P}_x = \text{Uniform}(1, 2)`` and ``\mathbb{P}_y = \text{Uniform}(1, 3).`` The product distribution defined by ``\mathbb{P} = \mathbb{P}_x * \mathbb{P}_y`` has density function
@@ -145,15 +162,6 @@ end
 # ╔═╡ 2d6b8875-0c05-485a-a612-52db615ae94a
 md"That the approximation (blue) and the true (red) density function overlap so closely indicates that our calculations are correct."
 
-# ╔═╡ 0db8c06d-2273-4728-8870-9b1849d15dbf
-B = Binomial(24, 0.92)
-
-# ╔═╡ 52416979-e4f9-4730-b15d-2e93d94aefe0
-pdf(B, 24)
-
-# ╔═╡ 8c58b293-68cf-4246-bd0e-a7c361a3bc45
-1 / 24
-
 # ╔═╡ 02adf16b-7be6-40ef-bdc7-0639d96413c6
 f(z) = 0.5 * (log(min(2, z) / max(1, z/3)))
 
@@ -184,9 +192,6 @@ begin
 	wireframe(x, y, f, alpha = 0.0)
 end
 
-# ╔═╡ ebbb58e3-49fa-47e8-9257-ca344f6b3f80
-md"## Sum"
-
 # ╔═╡ f6f81c53-ca48-4b6d-8c12-72ceb8bac007
 md"This same strategy works for adding two independent distributions.  For two independent distributions ``\mathbb{P}_x, \mathbb{P}_y`` with density functions ``f(x), f(y)``, the distribution of their sum can be found as
 
@@ -211,23 +216,28 @@ which justifies the claim that the sum of two independent distributions is the [
 md"**Practice** Try simulating the density function for the sum of two independent distributions.  Pick two distributions of your choice.  I recommend picking two distributions with matching support.  See [Distributions.jl documentation](https://juliastats.org/Distributions.jl/stable/univariate/#Continuous-Distributions) for a list of available distributions."
 
 # ╔═╡ ff28cc23-4cc8-4e56-a7ed-c4a688f05f2c
-md"**Practice** Try deriving a similar equation for the density function defined by the difference of two independent distributions.  Then approximate the density function through simulation to ensure your maths worked out (hopefully) correctly."
+md"**Practice** Try deriving a similar equation for the density function defined by the difference of two independent distributions.  Then approximate the density function through simulation to ensure your maths worked out correctly."
 
 # ╔═╡ 3d1222f6-cedc-453e-856a-2e405526da99
-md"## References
-
-* Product distributoin. *Wikipedia*. Retrieved May 17, 2021 from [https://en.wikipedia.org/wiki/Product_distribution](https://en.wikipedia.org/wiki/Product_distribution)
-* Diract delta function. *Wikipedia*.  Retrieved May 17, 2021 from [https://en.wikipedia.org/wiki/Dirac_delta_function#Properties](https://en.wikipedia.org/wiki/Dirac_delta_function#Properties)
-"
-
-# ╔═╡ 3d4329c0-4aa1-40c9-848b-ace3d9fe6c5b
-md"## Appendix"
+md"* [Product distributoin](https://en.wikipedia.org/wiki/Product_distribution). *Wikipedia*. Retrieved May 17, 2021.
+* [Dirac delta function](https://en.wikipedia.org/wiki/Dirac_delta_function). *Wikipedia*.  Retrieved May 17, 2021"
 
 # ╔═╡ 582601d1-016e-4dc4-9c1d-5c966a0ae5a7
-md"#### Properties of the Dirac delta function"
+md"#### Dirac delta function, a definition and properties"
 
 # ╔═╡ cc458129-bfcf-4ec9-8c83-df647da07b62
-md"The [Dirac delta function](https://en.wikipedia.org/wiki/Dirac_delta_function) is a peculiar little function. The scaling property of the Dirac delta function is
+md"The [Dirac delta function](https://en.wikipedia.org/wiki/Dirac_delta_function) is a peculiar little \"function.\" Think of the Dirac delta function as a function named ``\delta`` which satisfies the following two properties
+
+$$\delta(x) = \begin{cases} 
+      +\infty & x = 0 \\
+      0 & x \not= 0 \\ 
+\end{cases}$$
+
+and
+
+$$\int_{\mathbb{R}} \delta(x) \mathrm{d}x = 1.$$
+
+The scaling property of the Dirac delta function is
 
 $$\delta(\alpha x) = \frac{\delta(x)}{|\alpha|}$$
 
@@ -239,10 +249,22 @@ The Dirac delta function is even,
 
 $$\delta(-x) = \delta(x).$$
 
-The integral of the Diract delta function is equal to ``1``,
+The integral of the Dirac delta function is equal to ``1``,
 
 $$\int \delta(x) \mathrm{d}x = 1.$$
 "
+
+# ╔═╡ 932efc67-d2be-49ae-8c70-dac9f676e709
+section(t) = @htl("""<h2 id="$t">$t</h2>""")
+
+# ╔═╡ ebbb58e3-49fa-47e8-9257-ca344f6b3f80
+section("Sum") # TODO derivative wrong, needs Delta function; and double integrals
+
+# ╔═╡ 44377533-3fb5-4216-aeff-b9f8e629b3f3
+section("References")
+
+# ╔═╡ 3d4329c0-4aa1-40c9-848b-ace3d9fe6c5b
+section("Appendix")
 
 # ╔═╡ Cell order:
 # ╠═675b7996-b2ab-11eb-378f-e5182b4b1e42
@@ -257,15 +279,15 @@ $$\int \delta(x) \mathrm{d}x = 1.$$
 # ╠═7c8cbb8e-d400-486d-b259-d9ecd1b571e9
 # ╠═c5e0e915-d424-4b01-b0c3-bc5f2d85afd0
 # ╠═23fc83b2-6604-4179-83c3-0ac1170fccb6
+# ╠═3fc3f877-5c16-4cf9-bb32-05fe53287eac
+# ╠═042be5df-5b96-4485-8d1e-3ccbe5d46fc6
+# ╠═3aaf7632-b1b2-4432-afee-95de2de87e0b
 # ╠═1513b366-0fd0-49f9-8e8d-1ba8db6eb710
 # ╠═34ea06c8-0bd1-4cf8-8d4c-f321d20d37d6
 # ╠═039dd547-06b7-4e2a-b167-ba3ff2ca7bf2
 # ╠═975dcf5d-1272-494e-a73a-4f0188f8ec3b
 # ╠═2d6b8875-0c05-485a-a612-52db615ae94a
 # ╠═06ded93b-df48-4f83-8321-09d0cba68a56
-# ╠═0db8c06d-2273-4728-8870-9b1849d15dbf
-# ╠═52416979-e4f9-4730-b15d-2e93d94aefe0
-# ╠═8c58b293-68cf-4246-bd0e-a7c361a3bc45
 # ╠═02adf16b-7be6-40ef-bdc7-0639d96413c6
 # ╠═564f2097-6fb4-4fdc-b34d-3a9c28d295e9
 # ╠═a1b2618b-516f-48cc-abaf-3b632b146960
@@ -274,6 +296,7 @@ $$\int \delta(x) \mathrm{d}x = 1.$$
 # ╠═f6f81c53-ca48-4b6d-8c12-72ceb8bac007
 # ╠═ab89c8a2-7706-4b97-bf9e-5d4a9f0b1878
 # ╠═ff28cc23-4cc8-4e56-a7ed-c4a688f05f2c
+# ╠═44377533-3fb5-4216-aeff-b9f8e629b3f3
 # ╠═3d1222f6-cedc-453e-856a-2e405526da99
 # ╠═3d4329c0-4aa1-40c9-848b-ace3d9fe6c5b
 # ╠═582601d1-016e-4dc4-9c1d-5c966a0ae5a7
@@ -282,3 +305,5 @@ $$\int \delta(x) \mathrm{d}x = 1.$$
 # ╠═8bede73d-97bf-420b-b664-509a16c0c32b
 # ╠═9f0c25b0-1b53-415e-92d4-4b1b3bf7f650
 # ╠═dafd1e7b-a4ba-4854-bcd3-3b266dc58a4a
+# ╠═56488ebe-0d85-455e-a276-764e3b208795
+# ╠═932efc67-d2be-49ae-8c70-dac9f676e709
