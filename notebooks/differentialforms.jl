@@ -1,8 +1,11 @@
 ### A Pluto.jl notebook ###
-# v0.14.7
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
+
+# ╔═╡ f66c5349-258a-4218-81f9-57d86b1f9c34
+using Plots
 
 # ╔═╡ ffd4c917-7cd5-46c8-bba1-58e4b4fc47b9
 using PlutoUI
@@ -14,7 +17,7 @@ md"# Notes on Manifolds and Differential Forms"
 md"Personal notes on based on my reading of Reyer Sjamaar's lecture notes on [Manifolds and Differential Forms](http://pi.math.cornell.edu/~sjamaar/teach.html)."
 
 # ╔═╡ 2da4aa34-44b6-4d61-8378-2165a7da73af
-TableOfContents()
+TableOfContents(; depth = 4)
 
 # ╔═╡ f8f45f3b-e0b3-46e5-bf5b-7a77b750ee29
 md"A *differential form of degree k* or a *k-form* on ``\mathbb{R}^n`` is an expression
@@ -212,7 +215,7 @@ $$\frac{\partial f_i}{\partial x_j} = \frac{\partial f_j}{\partial x_i}$$
 for all ``1 \leq i < j \leq n``.  These identities must be satisfied for the system above to be solvable and are therefore called the integrability conditions for the system."
 
 # ╔═╡ 6c245821-988f-44ce-b046-684b3b4579d8
-md"**Example 2.9** Let ``\alpha = ydx + (z\cos yz + x) dy + y\cos yz dz``.  Then
+md"Let ``\alpha = ydx + (z\cos yz + x) dy + y\cos yz dz``.  Then
 
 $$d\alpha = dy dx + (z(-y\sin yz) + \cos yz)dz dy + dx dy + (y(-z\sin yz) + \cos yz)dy dz = 0$$
 
@@ -222,8 +225,125 @@ $$\frac{\partial g}{\partial x} = y, \; \frac{\partial g}{\partial y} = z\cos yz
 
 by successive integration.  The first equation gives ``g = yx + c(y,z)``, where ``c`` is a function of ``y`` and ``z`` only.  Substituting into the second equation gives ``\partial c/\partial y = z\cos yz``, so ``c = \sin yz + k(z)``.  Substituting inot the third equation gives ``k' = 0``, so ``k`` is a constant.  So ``g = xy + \sin yz`` is a solution and therefore ``\alpha`` is exact."
 
+# ╔═╡ eea260c5-b32e-47ca-861b-20d74c29e3dd
+md"The technique in [Example 2.9](#ex2.9) will always work for a ``1``-form defined on all of ``\mathbb{R}^n``, hence every closed ``1``-form on ``\mathbb{R}^n`` is exact."
+
+# ╔═╡ 8c7ffc59-f017-4e7e-a0dd-d1d395d98927
+md"The ``1``-form on the punctured plane ``\mathbb{R}^2 \setminus \{0\}`` defined by
+
+$$\alpha_0 = -\frac{y}{x^2 + y^2} dx + \frac{x}{x^2 + y^2} dy = \frac{-ydx + xdy}{x^2 + y^2}$$
+
+is called the angle form for reasons to be determined later.  Since
+
+$$\frac{\partial}{\partial x} \frac{x}{x^2 + y^2} = \frac{y^2 - x^2}{(x^2 + y^2)^2}, \; \frac{\partial}{\partial y} \frac{y}{x^2 + y^2} = \frac{x^2 - y^2}{(x^2 + y^2)^2}$$
+
+it follows that the angle form is closed.  We shall see later that the angle form is not exact."
+
+# ╔═╡ d56ab788-53d4-4ab5-8327-40aa59afacf2
+md"``{n \choose k}`` is the number of ways of partitioning a pile of ``n`` objects into a pile of ``k`` objects and a pile of ``n-k`` objects, thus
+
+$${n \choose k} = {n \choose n-k}.$$
+
+So in some sense there are as many ``k``-forms as there are ``n-k``-forms.  The *Hodge star operator* turns ``k``-forms into ``n-k``-forms.  The Hodge star of ``\alpha`` is denoted by ``*\alpha`` or sometimes ``\alpha^*``.  If ``\alpha = \sum_I f_I dx_I``, then
+
+$$*\alpha = \sum_I f_I(*dx_I),$$
+
+where ``*dx_I = \epsilon_I dx_{I^c}``."
+
+# ╔═╡ 33f51c39-d012-4a53-bc69-d65b29ac4d36
+md"Here, for any increasing multi-index ``I``, ``I^c`` denotes the complementary increasing multi-index, which consists of all numbers between ``1`` and ``n`` that do not occur in ``I``.  The factor ``\epsilon_I`` is a sign,
+
+$$\epsilon_I = \begin{cases} 
+	1 \; & dx_I dx_{I^c} = dx_1 dx_2 \cdots dx_n \\
+    -1 \; & dx_I dx_{I^c} = -dx_1 dx_2 \cdots dx_n \\
+\end{cases}$$."
+
+# ╔═╡ 3356be97-a02f-44b5-a2b3-c1b81b2752b4
+md"In other words, ``*dx_I`` is the product of all the ``dx_j``s that do not occur in ``dx_I``, times a factor ``\pm 1`` which is chosen in such a way that ``dx_I(*dx_I)`` is the volume form
+
+$$dx_I(*dx_I) = dx_1 dx_2 \cdots dx_n.$$"
+
+# ╔═╡ dffa149f-9f98-4747-ac61-9ac5e924d8f0
+md"Let ``n = 6`` and ``I = (2, 6)``.  Then ``I^c = (1, 3, 4, 5)``, so ``dx_I = dx_2 dx_6`` and ``dx_{I^c} = dx_1 dx_3 dx_4 dx_5``.  Therefore
+
+$$dx_I dx_{I^c} = dx_2 dx_6 dx_1 dx_3 dx_4 dx_5 = -dx_1 dx_2 dx_3 dx_4 dx_5 dx_6$$,
+
+which shows that ``\epsilon_I = -1``.  Hence, ``*(dx_2 dx_6) = -dx_1 dx_3 dx_4 dx_5``."
+
+# ╔═╡ cc614b68-d423-4143-9eeb-9c1b62f64af9
+md"On ``\mathbb{R}^2`` we have ``*dx = dy`` and ``*dy= -dx``.  On ``\mathbb{R}^3`` we have
+
+$$\begin{aligned}
+*dx = dydz, \; & {*}(dxdy) = dz \\
+*dy = -dxdz = dzdx, \; & {*}(dxdz) = -dy \\
+*dz = dxdy, \; & {*}(dydz) = dx \\
+\end{aligned}$$"
+
+# ╔═╡ 45babecc-1287-4287-a7c8-91a3b6b30800
+md"On ``\mathbb{R}^n`` we have ``{*}1 = dx_1 dx_2 \cdots dx_n``, ``{*}(dx_1 dx_2 \cdots dx_n) = 1``, and
+
+$$\begin{aligned}
+*dx_i = (-1)^{i+1}dx_1 dx_2 \cdots \widehat{dx}_i \cdots dx_n, \; & 1 \leq i \leq n \\
+{*}(dx_i dx_j) = (-1)^{i+j+1}dx_1 dx_2 \cdots \widehat{dx}_i \cdots \widehat{dx}_j \cdots dx_n, \; & 1 \leq i < j \leq n \\
+\end{aligned}$$"
+
+# ╔═╡ 76159970-0813-4a9b-b59b-71fac92c4a86
+md"A *vector field* on an open subset of ``U`` of ``\mathbb{R}^n`` is a smooth map ``F: U \to \mathbb{R}^n``.  We write ``\mathbf{F}`` in components as
+
+$$\mathbf{F}(\mathbf{x}) = (F_1(\mathbf{x}), F_2(\mathbf{x}), \ldots, F_n(\mathbf{x}))',$$
+
+or as ``\mathbf{F} = \sum_{i=1}^n F_i \mathbf{e}_i``, where ``\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_n`` are the standard basis vectors of ``\mathbb{R}^n``."
+
+# ╔═╡ f38b3e20-df6a-413f-8917-56c858c3c237
+md"Vector fields in the plane can be plotted by placing the vector ``\mathbf{F}(\mathbf{x})`` with its tail at the point ``\mathbf{x}``.  Black dots are the *zeros* of the vector fields, where ``\mathbf{F}(\mathbf{x}) = \mathbf{0}``."
+
+# ╔═╡ 1fd1ee4d-0d59-4197-8154-6296bc1defd4
+begin
+	x1 = -1:0.1:1
+	y1 = -1:0.1:1
+	df(x, y) =	0.1 .* [-y, x]
+	x1s = [x for x in x1 for y in y1]
+	y1s = [y for x in x1 for y in y1]
+	p1 = quiver(x1s, y1s, quiver = df)
+	scatter!(p1, [0.0], [0.0], color = :black, label = false)
+end
+
+# ╔═╡ eca07af4-f8de-4b52-aaaf-cc064e70ae2a
+begin
+	x2 = -0.5:0.1:2
+	y2 = -0.5:0.1:2
+	df2(x, y) = 0.05 .* [x*y - x, y - x*y]
+	x2s = [x for x in x2 for y in y2]
+	y2s = [y for x in x2 for y in y2]
+	p2 = quiver(x2s, y2s, quiver = df2)
+	scatter!(p2, [1.0], [1.0], color = :black, label = false)
+end
+
+# ╔═╡ a7aefd56-4623-46b0-8a5b-630b98121947
+md"We can turn ``\mathbf{F}`` into a ``1``-form ``\alpha`` by using the ``F_i`` as coefficients: ``\alpha = \sum_{i=1}^n F_i dx_i``.  For instance, the ``1``-form ``\alpha = -ydx + xdy`` corresponds to the vector field ``\mathbf{F} = -y\mathbf{e}_1 + x\mathbf{e}_2``."
+
+# ╔═╡ 15460e8b-e97a-4f18-a061-63fe09a4985b
+md"We should think of ``d\mathbf{x} = (dx_1, dx_2, \ldots, dx_n)'`` as a vector-valued ``1``-form.  Then we can write ``\alpha = \mathbf{F} \cdot d\mathbf{x}``.  Clearly, ``\mathbf{F}`` is determined by ``\alpha`` and vice versa.  Thus vector fields and ``1``-forms are symbiotically associated to one another."
+
+# ╔═╡ d357a943-dd38-435c-ad8a-4ae1032512c3
+md"vector field ``\mathbf{F} \leftrightarrow 1``-form ``\alpha`` via ``\mathbf{F} \cdot d\mathbf{x} = \alpha``."
+
+# ╔═╡ c0bd3379-efea-4cc8-836e-46c80af5bc6f
+md"Intuitively, the vector-valued ``1``-form ``d\mathbf{x}`` represents an infinitesimal displacement.  If ``\mathbf{F}`` represents a force field, such as gravity or electricity acting on a particle, then ``\alpha = \mathbf{F} \cdot d\mathbf{x}`` represnts the *work* done by the force when the particle is displaced by an amount ``d\mathbf{x}``.  If the particle travels along a path, the total work done by the force is found by *integrating* ``\alpha`` along the path."
+
+# ╔═╡ f5148e4a-08be-49c6-ab61-a43e682e7d16
+md"The correspondence between vector fields and ``1``-forms behaves in an interesting way with respect to exterior differentiation and the Hodge star operator.  For each function ``f`` the ``1``-form ``df = \sum_{i=1}^n (\partial f / \partial x_i) dx_i`` is associated to the vector field
+
+$$\nabla f = \sum_{i=1}^n \frac{\partial f}{\partial x_i} \mathbf{e}_i = \left(\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \ldots, \frac{\partial f}{\partial x_n} \right)'.$$ This vector field is called the *gradient* of ``f`` (or equivalently the transpose of the Jacobi matrix of ``f``)."
+
+# ╔═╡ 2efef754-47a5-42d9-a6a4-ea2db82fb28a
+md"``\nabla f \leftrightarrow df``: ``df = \nabla f \cdot d\mathbf{x}``"
+
 # ╔═╡ 1cef4f0a-e34e-467a-814f-d3bca7ab420e
-section(level, title) = HTML("<$level id=$(split(title, " ")[1])>$title</$level>")
+begin
+	section(level, title) = HTML("<$level id=$(split(title, " ")[1])>$title</$level>")
+	example(sn) = HTML("""<span id=$("ex"*sn)><b>Example $sn</b></span>""")
+end
 
 # ╔═╡ e912ef1b-734f-4ddd-9007-6e08ed97e384
 section("h2", "2 Differential Forms on Euclidean Space")
@@ -236,6 +356,24 @@ section("h4", "2.2 The exterior derivative")
 
 # ╔═╡ b64c8e1c-23d2-4be2-9d75-00a60cea3221
 section("h4", "2.3 Closed and exact forms")
+
+# ╔═╡ 2aed704c-4e7f-43a5-b1df-4e0a9319e041
+example("2.9")
+
+# ╔═╡ 6414b4fc-3445-4fb7-97a2-d3c38cfca31c
+example("2.10")
+
+# ╔═╡ 26de5f23-64cc-4b8d-a599-088a212c2a4a
+section("h4", "2.4 The Hodge star operator")
+
+# ╔═╡ d52ccce6-fb72-4781-9989-fff3492d4978
+example("2.11")
+
+# ╔═╡ e4775257-e6be-4c6f-a45c-75e0ecbf1651
+example("2.12")
+
+# ╔═╡ dd73a4df-f564-4d35-93de-a25e5a74efc9
+section("h4", "2.5 div, grad, and curl")
 
 # ╔═╡ Cell order:
 # ╠═90fb24e0-c88b-11eb-3a76-7712f64d0d6f
@@ -274,6 +412,31 @@ section("h4", "2.3 Closed and exact forms")
 # ╠═18912d6a-c0c2-4b05-92a5-3922982b7a7c
 # ╠═2eb519f2-b8e0-4c9c-af71-c5b2c55e61ef
 # ╠═a32763ee-401d-439c-b773-7fc686c02b8e
+# ╠═2aed704c-4e7f-43a5-b1df-4e0a9319e041
 # ╠═6c245821-988f-44ce-b046-684b3b4579d8
+# ╠═eea260c5-b32e-47ca-861b-20d74c29e3dd
+# ╠═6414b4fc-3445-4fb7-97a2-d3c38cfca31c
+# ╠═8c7ffc59-f017-4e7e-a0dd-d1d395d98927
+# ╠═26de5f23-64cc-4b8d-a599-088a212c2a4a
+# ╠═d56ab788-53d4-4ab5-8327-40aa59afacf2
+# ╠═33f51c39-d012-4a53-bc69-d65b29ac4d36
+# ╠═3356be97-a02f-44b5-a2b3-c1b81b2752b4
+# ╠═d52ccce6-fb72-4781-9989-fff3492d4978
+# ╠═dffa149f-9f98-4747-ac61-9ac5e924d8f0
+# ╠═e4775257-e6be-4c6f-a45c-75e0ecbf1651
+# ╠═cc614b68-d423-4143-9eeb-9c1b62f64af9
+# ╠═45babecc-1287-4287-a7c8-91a3b6b30800
+# ╠═dd73a4df-f564-4d35-93de-a25e5a74efc9
+# ╠═76159970-0813-4a9b-b59b-71fac92c4a86
+# ╠═f38b3e20-df6a-413f-8917-56c858c3c237
+# ╠═1fd1ee4d-0d59-4197-8154-6296bc1defd4
+# ╠═eca07af4-f8de-4b52-aaaf-cc064e70ae2a
+# ╠═a7aefd56-4623-46b0-8a5b-630b98121947
+# ╠═15460e8b-e97a-4f18-a061-63fe09a4985b
+# ╠═d357a943-dd38-435c-ad8a-4ae1032512c3
+# ╠═c0bd3379-efea-4cc8-836e-46c80af5bc6f
+# ╠═f5148e4a-08be-49c6-ab61-a43e682e7d16
+# ╠═2efef754-47a5-42d9-a6a4-ea2db82fb28a
+# ╠═f66c5349-258a-4218-81f9-57d86b1f9c34
 # ╠═ffd4c917-7cd5-46c8-bba1-58e4b4fc47b9
 # ╠═1cef4f0a-e34e-467a-814f-d3bca7ab420e
