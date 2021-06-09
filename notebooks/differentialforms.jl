@@ -7,9 +7,6 @@ using InteractiveUtils
 # ╔═╡ ffd4c917-7cd5-46c8-bba1-58e4b4fc47b9
 using PlutoUI
 
-# ╔═╡ 540192f3-b4db-43bb-9f27-5f435df43d92
-using HypertextLiteral
-
 # ╔═╡ 90fb24e0-c88b-11eb-3a76-7712f64d0d6f
 md"# Notes on Manifolds and Differential Forms"
 
@@ -189,32 +186,56 @@ since for any smooth function the mixed partial derivatives ``\frac{\partial^2 f
 md"A form ``\alpha`` is *closed* if ``d\alpha = 0`` and is *exact* if ``\alpha = d\beta`` for some form ``\beta`` of degree one less than ``\alpha``."
 
 # ╔═╡ 0d079799-63f8-417c-948e-11918162d7e1
-md"Every exact form is closed since if ``\alpha = d\beta`` then ``d\alpha = d^2\beta = 0``."
+md"**Proposition 2.7** Every exact form is closed since if ``\alpha = d\beta`` then ``d\alpha = d^2\beta = 0``."
 
 # ╔═╡ 92ad8328-c350-48e7-8521-256fc61f8159
+md"**Example 2.8.0** The form ``-ydx + xdy`` is not closed and therefore can not be exact.  On the otherhand, ``ydx + xdy`` is closed and exact, since ``d(xy) = ydx + xdy``."
 
+# ╔═╡ 1bea6f05-0015-4f5e-85d0-b1f1a5f743e8
+md"**Example 2.8.1** For a ``0``-form (function) ``f`` on ``\mathbb{R}^n`` to be closed, all its partial derivaties must vanish, which means it is constant."
+
+# ╔═╡ 18912d6a-c0c2-4b05-92a5-3922982b7a7c
+md"**Example 2.8.2** A nonzero constant function is not exact, because forms of degree ``-1`` are ``0``."
+
+# ╔═╡ 2eb519f2-b8e0-4c9c-af71-c5b2c55e61ef
+md"Consider the ``1``-form ``\alpha = \sum_{i=1}^n f_i dx_i``.  Determining whether ``\alpha`` is exact means solving the equation ``dg = \alpha`` for the function ``g``.  This amounts to 
+
+$$\frac{\partial g}{\partial x_1} = f_1, \; \frac{\partial g}{\partial x_2} = f_n, \; \ldots, \; \frac{\partial g}{\partial x_n} = f_n$$,
+
+a system of *first-order partial differential equations*.  Finding a solution is sometimes called *integrating* the system.  This is only possible is ``\alpha`` is closed, otherwise if ``\alpha`` is not closed then ``\alpha`` is not exact."
+
+# ╔═╡ a32763ee-401d-439c-b773-7fc686c02b8e
+md"The ``1``-form ``\alpha`` is closed if and only if
+
+$$\frac{\partial f_i}{\partial x_j} = \frac{\partial f_j}{\partial x_i}$$
+
+for all ``1 \leq i < j \leq n``.  These identities must be satisfied for the system above to be solvable and are therefore called the integrability conditions for the system."
+
+# ╔═╡ 6c245821-988f-44ce-b046-684b3b4579d8
+md"**Example 2.9** Let ``\alpha = ydx + (z\cos yz + x) dy + y\cos yz dz``.  Then
+
+$$d\alpha = dy dx + (z(-y\sin yz) + \cos yz)dz dy + dx dy + (y(-z\sin yz) + \cos yz)dy dz = 0$$
+
+so ``\alpha`` is closed.  Is ``\alpha`` exact?  Let's solve the equations
+
+$$\frac{\partial g}{\partial x} = y, \; \frac{\partial g}{\partial y} = z\cos yz + x, \; \frac{\partial g}{\partial z} = y \cos yz$$
+
+by successive integration.  The first equation gives ``g = yx + c(y,z)``, where ``c`` is a function of ``y`` and ``z`` only.  Substituting into the second equation gives ``\partial c/\partial y = z\cos yz``, so ``c = \sin yz + k(z)``.  Substituting inot the third equation gives ``k' = 0``, so ``k`` is a constant.  So ``g = xy + \sin yz`` is a solution and therefore ``\alpha`` is exact."
 
 # ╔═╡ 1cef4f0a-e34e-467a-814f-d3bca7ab420e
-begin
-	section(t) = @htl("<h2 id=$t>$t</h2>")
-	subsection(t) = @htl("<h4 id=$(split(t, " ")[1])>$t</h4>")
-	ss(s, t) = HTML("<$s id=$(split(t, " ")[1])>$t</$s>")
-end
+section(level, title) = HTML("<$level id=$(split(title, " ")[1])>$title</$level>")
 
 # ╔═╡ e912ef1b-734f-4ddd-9007-6e08ed97e384
-section("Differential Forms on Euclidean Space")
+section("h2", "2 Differential Forms on Euclidean Space")
 
 # ╔═╡ cbae3bf3-a90b-4518-94f8-383ccaa4bec6
-subsection("2.1 Elementary Properties")
+section("h4", "2.1 Elementary Properties")
 
 # ╔═╡ bba65c0e-da2a-4b75-9cb9-688f47c4be9f
-subsection("2.2 The exterior derivative")
+section("h4", "2.2 The exterior derivative")
 
 # ╔═╡ b64c8e1c-23d2-4be2-9d75-00a60cea3221
-subsection("2.3 Closed and exact forms")
-
-# ╔═╡ dd848965-062e-4daf-8c16-fc598a6d09c4
-ss("h6", "topics")
+section("h4", "2.3 Closed and exact forms")
 
 # ╔═╡ Cell order:
 # ╠═90fb24e0-c88b-11eb-3a76-7712f64d0d6f
@@ -249,7 +270,10 @@ ss("h6", "topics")
 # ╠═8aa6db49-8385-4472-8221-f8ab66dc2d37
 # ╠═0d079799-63f8-417c-948e-11918162d7e1
 # ╠═92ad8328-c350-48e7-8521-256fc61f8159
+# ╠═1bea6f05-0015-4f5e-85d0-b1f1a5f743e8
+# ╠═18912d6a-c0c2-4b05-92a5-3922982b7a7c
+# ╠═2eb519f2-b8e0-4c9c-af71-c5b2c55e61ef
+# ╠═a32763ee-401d-439c-b773-7fc686c02b8e
+# ╠═6c245821-988f-44ce-b046-684b3b4579d8
 # ╠═ffd4c917-7cd5-46c8-bba1-58e4b4fc47b9
-# ╠═540192f3-b4db-43bb-9f27-5f435df43d92
-# ╠═dd848965-062e-4daf-8c16-fc598a6d09c4
 # ╠═1cef4f0a-e34e-467a-814f-d3bca7ab420e
