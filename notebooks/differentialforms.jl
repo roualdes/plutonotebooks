@@ -339,6 +339,29 @@ $$\nabla f = \sum_{i=1}^n \frac{\partial f}{\partial x_i} \mathbf{e}_i = \left(\
 # ╔═╡ 2efef754-47a5-42d9-a6a4-ea2db82fb28a
 md"``\nabla f \leftrightarrow df``: ``df = \nabla f \cdot d\mathbf{x}``"
 
+# ╔═╡ 3201912e-7301-4df8-9837-b43d0f51bf3b
+md"Start with a vector field ``\mathbf{F}`` and let ``\alpha = \mathbf{F}\cdot d\mathbf{x}``.  Then
+
+$${*}\alpha = \sum_{i=1}^n F_i ({*}dx_i)$ = \sum_{i=1}^n F_i(-1)^{i+1}dx_1 dx_2 \cdots \widehat{dx}_i \cdots dx_n$$."
+
+# ╔═╡ 3584867f-4572-4781-a5c5-20e061f7df25
+md"Using the vector-valued ``n-1``-form 
+
+$$\begin{aligned}
+{*}d\mathbf{x} & = ({*}dx_1, \ldots, {*}dx_n)' \\
+& = (dx_2 \cdots dx_n, -dx_1 dx_3 \cdots dx_n, \ldots, (-1)^{n+1}dx_1 dx_2 \cdots dx_{n-1})' \\
+\end{aligned}$$
+
+we can also write ``{*}\alpha = \mathbf{F}\cdot *d\mathbf{x}``."
+
+# ╔═╡ cfad90eb-a8dc-422f-9235-33756922ded0
+md"Intuitively, the vector-valued ``n-1``-form ``*d\mathbf{x}`` represents an infinitesimal ``n-1``-dimensional hypersurface perpendicular to ``d\mathbf{x}``.  In fluid mechanics, the flow of a fluid or gas in ``\mathbb{R}^n`` is represented by a vector field ``\mathbb{F}``.  The ``n-1``-form ``*\alpha`` then represents the *flux*, that is the amount of material passing through the hypersurface ``*d\mathbf{x}`` per unit time."
+
+# ╔═╡ 4d1fd32f-de8f-4c16-8fef-ab6c0724b152
+md"We have
+
+$$d{*}\alpha = d(\sum_{i=1}^n F_i$$"
+
 # ╔═╡ 1cef4f0a-e34e-467a-814f-d3bca7ab420e
 begin
 	section(level, title) = HTML("<$level id=$(split(title, " ")[1])>$title</$level>")
@@ -437,6 +460,10 @@ section("h4", "2.5 div, grad, and curl")
 # ╠═c0bd3379-efea-4cc8-836e-46c80af5bc6f
 # ╠═f5148e4a-08be-49c6-ab61-a43e682e7d16
 # ╠═2efef754-47a5-42d9-a6a4-ea2db82fb28a
+# ╠═3201912e-7301-4df8-9837-b43d0f51bf3b
+# ╠═3584867f-4572-4781-a5c5-20e061f7df25
+# ╠═cfad90eb-a8dc-422f-9235-33756922ded0
+# ╠═4d1fd32f-de8f-4c16-8fef-ab6c0724b152
 # ╠═f66c5349-258a-4218-81f9-57d86b1f9c34
 # ╠═ffd4c917-7cd5-46c8-bba1-58e4b4fc47b9
 # ╠═1cef4f0a-e34e-467a-814f-d3bca7ab420e
