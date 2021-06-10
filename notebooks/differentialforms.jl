@@ -37,7 +37,7 @@ to distinguish this product from the tensor product.
 "
 
 # ╔═╡ 6ef9ce1d-e64b-43c9-aabd-eaae3b9c946d
-md"**Examples**
+md"**Example** 
 
 $$\alpha = \sin(x_1 + e^{x_4})dx_1dx_5 + x_2 x_5^2dx_2dx3 + 6dx_2dx_4 + \cos x_2dx_5dx_3$$
 
@@ -189,21 +189,21 @@ since for any smooth function the mixed partial derivatives ``\frac{\partial^2 f
 md"A form ``\alpha`` is *closed* if ``d\alpha = 0`` and is *exact* if ``\alpha = d\beta`` for some form ``\beta`` of degree one less than ``\alpha``."
 
 # ╔═╡ 0d079799-63f8-417c-948e-11918162d7e1
-md"**Proposition 2.7** Every exact form is closed since if ``\alpha = d\beta`` then ``d\alpha = d^2\beta = 0``."
+md"Every exact form is closed since if ``\alpha = d\beta`` then ``d\alpha = d^2\beta = 0``."
 
 # ╔═╡ 92ad8328-c350-48e7-8521-256fc61f8159
-md"**Example 2.8.0** The form ``-ydx + xdy`` is not closed and therefore can not be exact.  On the otherhand, ``ydx + xdy`` is closed and exact, since ``d(xy) = ydx + xdy``."
+md"The form ``-ydx + xdy`` is not closed and therefore can not be exact.  On the otherhand, ``ydx + xdy`` is closed and exact, since ``d(xy) = ydx + xdy``."
 
 # ╔═╡ 1bea6f05-0015-4f5e-85d0-b1f1a5f743e8
-md"**Example 2.8.1** For a ``0``-form (function) ``f`` on ``\mathbb{R}^n`` to be closed, all its partial derivaties must vanish, which means it is constant."
+md"For a ``0``-form (function) ``f`` on ``\mathbb{R}^n`` to be closed, all its partial derivaties must vanish, which means it is constant."
 
 # ╔═╡ 18912d6a-c0c2-4b05-92a5-3922982b7a7c
-md"**Example 2.8.2** A nonzero constant function is not exact, because forms of degree ``-1`` are ``0``."
+md"A nonzero constant function is not exact, because forms of degree ``-1`` are ``0``."
 
 # ╔═╡ 2eb519f2-b8e0-4c9c-af71-c5b2c55e61ef
 md"Consider the ``1``-form ``\alpha = \sum_{i=1}^n f_i dx_i``.  Determining whether ``\alpha`` is exact means solving the equation ``dg = \alpha`` for the function ``g``.  This amounts to 
 
-$$\frac{\partial g}{\partial x_1} = f_1, \; \frac{\partial g}{\partial x_2} = f_n, \; \ldots, \; \frac{\partial g}{\partial x_n} = f_n$$,
+$$\frac{\partial g}{\partial x_1} = f_1, \; \frac{\partial g}{\partial x_2} = f_n, \; \ldots, \; \frac{\partial g}{\partial x_n} = f_n,$$
 
 a system of *first-order partial differential equations*.  Finding a solution is sometimes called *integrating* the system.  This is only possible is ``\alpha`` is closed, otherwise if ``\alpha`` is not closed then ``\alpha`` is not exact."
 
@@ -360,12 +360,55 @@ md"Intuitively, the vector-valued ``n-1``-form ``*d\mathbf{x}`` represents an in
 # ╔═╡ 4d1fd32f-de8f-4c16-8fef-ab6c0724b152
 md"We have
 
-$$d{*}\alpha = d(\sum_{i=1}^n F_i$$"
+$$\begin{aligned} d{*}\alpha & = d(\mathbf{F}\cdot *d\mathbf{x})  \\ 
+& = d\left(\sum_{i=1}^n F_i (-1)^{i+1} dx_1 dx_2 \cdots \widehat{dx}_i \cdots dx_n \right) \\
+& = \sum_{i=1}^n \sum_{j=1}^n \frac{\partial F_i}{\partial x_j} (-1)^{i+1} dx_j  dx_1 dx_2 \cdots \widehat{dx}_i \cdots dx_n\end{aligned}.$$
+
+When ``j\not=i`` then there's two ``dx_j``s which equal ``0``, so that the double sume reduces to one sum
+
+$$\begin{aligned} d{*}\alpha 
+& = \sum_{i=1}^n \sum_{j=1}^n \frac{\partial F_i}{\partial x_j} (-1)^{i+1} dx_j  dx_1 dx_2 \cdots \widehat{dx}_i \cdots dx_n \\
+& = \sum_{i=1}^n \frac{\partial F_i}{\partial x_j} (-1)^{i+1} dx_i  dx_1 dx_2 \cdots \widehat{dx}_i \cdots dx_n \\
+& = \sum_{i=1}^n \frac{\partial F_i}{\partial x_j}  dx_1 dx_2 \cdots dx_i \cdots dx_n \\
+& = \left( \sum_{i=1}^n \frac{\partial F_i}{\partial x_j} \right) dx_1 dx_2 \cdots dx_n \\
+& = \textrm{div}(\mathbf{F})d\mathbf{x} \\
+\end{aligned}$$"
+
+# ╔═╡ 33ee9534-3810-4333-aa7d-6a7858822982
+md"The function ``\textrm{div}(\mathbf{F}) = \sum_{i=1}^n \frac{\partial F_i}{\partial x_i}`` is the *divergence* of ``\mathbf{F}``.  Thus, if ``\alpha = \mathbf{F}\cdot d\mathbf{x}``, then
+
+$$d{*}\alpha = d(\mathbf{F}\cdot {*}d\mathbf{x}) = \textrm{div}(\mathbf{F})dx_1 dx_2 \cdots dx_n.$$
+
+An alternative way of writing this identity is obtained by applying ``*`` to both sides, which gives
+
+$$\textrm{div}(\mathbf{F}) = *d{*}\alpha,$$
+
+which should probably be read as ``*(d({*}\alpha))``."
+
+# ╔═╡ 315fc0e5-d562-4e40-96e5-4dc51c495593
+md"A very different identity is found by first aply ``d`` and then ``*`` to ``\alpha``:
+
+$$d\alpha = \sum_{i,j = 1}^n \frac{\partial F_i}{\partial x_j} dx_j dx_i = \sum_{1 \leq i < j \leq n} \left(\frac{\partial F_j}{dx_i} - \frac{\partial F_i}{\partial dx_j} \right) dx_i dx_j,$$
+
+and hence
+
+$$*d\alpha = \sum_{1 \leq i < j \leq n} (-1)^{i+j+1} \left(\frac{\partial F_j}{dx_i} - \frac{\partial F_i}{\partial dx_j} \right) dx_1 dx_2 \cdots \widehat{dx}_i \widehat{dx}_j \cdots dx_n.$$"
+
+# ╔═╡ a5de86a9-dd6e-45b4-b92e-af12ed54b037
+md"In three dimensions, ``*d\alpha`` is a ``1``-form and so is associated to a vector field, namely
+
+$$\textrm{curl}(\mathbf{F}) = \left( \frac{\partial F_3}{\partial x_2} -  \frac{\partial F_2}{\partial x_3}\right) \mathbf{e}_1 - \left( \frac{\partial F_3}{\partial x_1} -  \frac{\partial F_1}{\partial x_3}\right) \mathbf{e}_2 + \left( \frac{\partial F_2}{\partial x_1} -  \frac{\partial F_1}{\partial x_2}\right) \mathbf{e}_3,$$
+
+the *curl* of ``\mathbf{F}.``  Thus, for ``n = 3``, if ``\alpha = \mathbf{F} \cdot d\mathbf{x}``, then
+
+$$\textrm{curl}(\mathbf{F}) \cdot d\mathbf{x} = *d\alpha.$$"
 
 # ╔═╡ 1cef4f0a-e34e-467a-814f-d3bca7ab420e
 begin
-	section(level, title) = HTML("<$level id=$(split(title, " ")[1])>$title</$level>")
-	example(sn) = HTML("""<span id=$("ex"*sn)><b>Example $sn</b></span>""")
+	section(level::String, title::String) = HTML("<$level id=$(split(title, " ")[1])>$title</$level>")
+	example(n::String) = HTML("""<span id=$("ex"*n)><b>Example $n</b></span>""")
+	proposition(n::String) = HTML("""<span id=$("p"*n)><b>Proposition $n</b></span>""")
+	corollary(n::String) = HTML("""<span id=$("c"*n)><b>Corollary $n</b></span>""")
 end
 
 # ╔═╡ e912ef1b-734f-4ddd-9007-6e08ed97e384
@@ -374,11 +417,35 @@ section("h2", "2 Differential Forms on Euclidean Space")
 # ╔═╡ cbae3bf3-a90b-4518-94f8-383ccaa4bec6
 section("h4", "2.1 Elementary Properties")
 
+# ╔═╡ 23648b46-5280-420c-83ce-7c650062a9ac
+proposition("2.1")
+
+# ╔═╡ 89464fa4-3185-45f7-9c9e-5d9be1340b9b
+corollary("2.2")
+
 # ╔═╡ bba65c0e-da2a-4b75-9cb9-688f47c4be9f
 section("h4", "2.2 The exterior derivative")
 
+# ╔═╡ 00fbac5a-a309-4654-998e-8e34ef87278e
+proposition("2.5")
+
+# ╔═╡ 479b40c3-4065-4a65-a537-15bc1994a96e
+proposition("2.6")
+
 # ╔═╡ b64c8e1c-23d2-4be2-9d75-00a60cea3221
 section("h4", "2.3 Closed and exact forms")
+
+# ╔═╡ 7c7d9750-3358-45ae-ba4e-ba79543fa8fa
+proposition("2.7")
+
+# ╔═╡ ace41d7d-6745-4dac-848a-2ce2fac255be
+example("2.8")
+
+# ╔═╡ 39074231-8c01-4a36-89a6-45ca89d993af
+example("2.8.1")
+
+# ╔═╡ fd07751c-5a23-4e48-8bce-a598424ab56e
+example("2.8.2")
 
 # ╔═╡ 2aed704c-4e7f-43a5-b1df-4e0a9319e041
 example("2.9")
@@ -398,6 +465,12 @@ example("2.12")
 # ╔═╡ dd73a4df-f564-4d35-93de-a25e5a74efc9
 section("h4", "2.5 div, grad, and curl")
 
+# ╔═╡ e49596cb-ddd1-42b7-9220-98c42e050234
+section("h2", "3 Pulling back forms")
+
+# ╔═╡ 53f037b0-b278-44fb-a486-bd83b172a359
+section("h4", "3.1 Determinants")
+
 # ╔═╡ Cell order:
 # ╠═90fb24e0-c88b-11eb-3a76-7712f64d0d6f
 # ╠═273c5aa8-e0b2-4139-89a9-ac4cd7a51464
@@ -416,8 +489,10 @@ section("h4", "2.5 div, grad, and curl")
 # ╠═3fc8e981-74d9-457d-b893-26f5c7c566e7
 # ╠═2321e281-94a6-4168-bed1-3c025fbe0ebc
 # ╠═b47d6381-a485-4b37-aa3b-960a205b017e
+# ╠═23648b46-5280-420c-83ce-7c650062a9ac
 # ╠═d4d92ee8-39b9-48c3-b0ab-e13eb4fa1310
 # ╠═7299fc05-167f-487f-8ef0-04a089834573
+# ╠═89464fa4-3185-45f7-9c9e-5d9be1340b9b
 # ╠═e6751f89-4445-4cfd-865d-6e4eed3f8c05
 # ╠═bba65c0e-da2a-4b75-9cb9-688f47c4be9f
 # ╠═1d9c1d57-2fef-4a9a-88e7-aed67caa5a52
@@ -425,13 +500,19 @@ section("h4", "2.5 div, grad, and curl")
 # ╠═91b9e344-7a90-4d75-91db-3b2d12ecbe4b
 # ╠═f297b43d-ef49-4527-b194-710aae2d9e1e
 # ╠═e91d166a-dd93-4004-8de8-8e3c95333c4e
+# ╠═00fbac5a-a309-4654-998e-8e34ef87278e
 # ╠═815947bb-4a63-4d4f-8e0c-656eea006d1e
+# ╠═479b40c3-4065-4a65-a537-15bc1994a96e
 # ╠═dd2013dd-95a1-4631-9913-473da7350168
 # ╠═b64c8e1c-23d2-4be2-9d75-00a60cea3221
 # ╠═8aa6db49-8385-4472-8221-f8ab66dc2d37
+# ╠═7c7d9750-3358-45ae-ba4e-ba79543fa8fa
 # ╠═0d079799-63f8-417c-948e-11918162d7e1
+# ╠═ace41d7d-6745-4dac-848a-2ce2fac255be
 # ╠═92ad8328-c350-48e7-8521-256fc61f8159
+# ╠═39074231-8c01-4a36-89a6-45ca89d993af
 # ╠═1bea6f05-0015-4f5e-85d0-b1f1a5f743e8
+# ╠═fd07751c-5a23-4e48-8bce-a598424ab56e
 # ╠═18912d6a-c0c2-4b05-92a5-3922982b7a7c
 # ╠═2eb519f2-b8e0-4c9c-af71-c5b2c55e61ef
 # ╠═a32763ee-401d-439c-b773-7fc686c02b8e
@@ -464,6 +545,11 @@ section("h4", "2.5 div, grad, and curl")
 # ╠═3584867f-4572-4781-a5c5-20e061f7df25
 # ╠═cfad90eb-a8dc-422f-9235-33756922ded0
 # ╠═4d1fd32f-de8f-4c16-8fef-ab6c0724b152
+# ╠═33ee9534-3810-4333-aa7d-6a7858822982
+# ╠═315fc0e5-d562-4e40-96e5-4dc51c495593
+# ╠═a5de86a9-dd6e-45b4-b92e-af12ed54b037
+# ╠═e49596cb-ddd1-42b7-9220-98c42e050234
+# ╠═53f037b0-b278-44fb-a486-bd83b172a359
 # ╠═f66c5349-258a-4218-81f9-57d86b1f9c34
 # ╠═ffd4c917-7cd5-46c8-bba1-58e4b4fc47b9
 # ╠═1cef4f0a-e34e-467a-814f-d3bca7ab420e
