@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.14.8
 
 using Markdown
 using InteractiveUtils
@@ -403,12 +403,82 @@ the *curl* of ``\mathbf{F}.``  Thus, for ``n = 3``, if ``\alpha = \mathbf{F} \cd
 
 $$\textrm{curl}(\mathbf{F}) \cdot d\mathbf{x} = *d\alpha.$$"
 
+# ╔═╡ 027631a9-3b6e-4fc3-8160-7f07e29f89e1
+md"The *parallelepiped* spanned by the columns of the ``n \times n``-matrix ``A`` is by definition the set of all linear combinations of ``\sum_{i=1}^n c_i \mathbf{a}_i``, where the coefficients ``c_i`` range over the unit interval ``[0, 1]``.  A parallelepiped spanned by a single vector is called a *line segment* and a parallelepiped spanned by two vectors is called a *parallelogram*."
+
+# ╔═╡ 716b444a-65ab-4d23-abf2-4687e440f455
+md"The determinant of ``A`` is variously denoted by 
+
+$$\det{(A)} = \det{(\mathbf{a}_1, \mathbf{a}_2, \ldots, \mathbf{a}_n)} = \det{(a_{i,j})}_{1 \leq i, j \leq n} = |A|$$"
+
+# ╔═╡ 67c0978f-3698-4a35-8551-fe908725a181
+md"**Expansion on the ``j``-th column**.  Define the determinant of ``A`` to be
+
+$$\det{(A)} = \sum_{i=1}^n (-1)^{i+1} a_{i,j} \det{(A^{i,j})},$$
+
+where ``A^{i,j}`` denotes the ``(n-1) \times (n-1)``-matrix obtained from ``A`` by crossing out the ``i``-th row and ``j``-th column.  This recursive definition relies on the base case where the determinant of a ``1 \times 1``-matrix ``(a)`` is simply the number ``a``.  This sometimes useful definition has two serious flaws: first it is exteremly inefficient computationally, and second it obscures the relationship with volumes of parallelepipeds."
+
+# ╔═╡ cde7422b-5db5-459a-bb9a-185ac3c18d22
+md"A far better definition follows from a characterization by a few simple axioms, which make good sense in view of its geometrical significance.  To motivate these axioms we first consider the case of a ``2 \times 2``-matrix ``A``, the columns of which are vectors ``\mathbf{a}_1, \mathbf{a}_2`` in the plane."
+
+# ╔═╡ 454043e7-bb83-4c04-bef7-eed918fd59f9
+md"Consider the shear transformation of adding any multiple ``b`` of ``\mathbf{a}_1`` to ``\mathbf{a}_2``.  The shear transformation ``(\mathbf{a}_1, \mathbf{a}_2) \to (\mathbf{a}_1, \mathbf{a}_2 + b\mathbf{a}_1)`` does not change the oriented area."
+
+# ╔═╡ 838e43bf-98aa-4e7c-8cea-8ec9283123c9
+md"Consider multiplying the first column by a scalar ``c``, ``(\mathbf{a}_1, \mathbf{a}_2) \to (c\mathbf{a}_1, \mathbf{a}_2)``, which effectively stretches (if ``c > 1``) or compresses (if ``0 < c < 1)`` and thus changes the oriented area by a factor of ``c``.  If ``c`` is negative, then a *positively oriented* parallelogram, where the angle from edge ``\mathbf{a}_1`` to edge ``\mathbf{a}_2`` is counterclockwise, will become *negatively oriented* in the sense that the angle from edge ``c\mathbf{a}_1`` to edge ``\mathbf{a}_2`` is clockwise.  Therefore multiplying ``\mathbf{a}_1`` by a negative ``c`` also changes the oriented area by a factor of ``c``."
+
+# ╔═╡ 0141487a-d330-458d-9883-c7bd5351cb3a
+md"Similarly, interchanging the columns of ``A`` has the effect of reversing the orientation of the parallelogram, which changes the sign of its oriented area."
+
+# ╔═╡ 20430725-6e6c-4103-af07-ff18d9e11b51
+md"To generalize this to higher dimensions, recal the *elementary column operations* which come in three types: adding a multiple of any column of ``A`` to any other column (type I); multiplying a column by a nonzero constant (type II); and interchanging any two columns (type III).  As suggested by the above descriptions on a parallelogram, type I does not affect the determinant, type II mulitplies by the corresponding constant, and type II causes a sign change."
+
+# ╔═╡ 594af7d8-3e80-4771-ac4a-4453b54ed21d
+md"A *determinant* is a function ``\det`` which assignes to every ``n \times n`` matrix ``A`` a number ``\det{(A)}`` subject to the following axioms:
+
+  i. If ``E`` is an elementary column operation, then ``\det{(E(A))} = k\det{(A)}``, where
+
+$$k = \begin{cases} 
+	1 \; & E \text{ is of type I} \\
+    c \; & E \text{ is of type II} \\
+	-1 \; & E \text{ is of type III} \\
+\end{cases}$$
+
+  ii. ``\det{(I)} = 1.``"
+
+# ╔═╡ 6935e7d8-50b2-47ed-b695-924764c732d7
+md"Axiom ii. is a normalization convention, which is justified by the reasonable requirement that the unit cube in ``\mathbb{R}^n`` should have oriented volume ``1``."
+
+# ╔═╡ 00582b53-9861-4733-bc22-01e74c6ee01b
+md"The function ``\det`` is unique."
+
+# ╔═╡ 303f0666-fb3a-4052-b05e-6e988231b4b7
+md"$$\det{(A)} = \sum_{\sigma \in S_n} \text{sign}(\sigma)a_{1, \sigma(1)} a_{2, \sigma(2)}, \cdots, a_{n, \sigma(n)}.$$
+
+``S_n`` stands for the collection of all *permutations* of the set ``\{1, 2, \ldots, n\}``.  A permutation is a way of ordering the numbers ``1, 2, \ldots, n``.  Permutations are usually written as ``n``-tuples containing each of these numbers exactly once.  Thus for ``n = 2`` there are only two permutations: ``(1, 2)`` and ``(2, 1)``.  For a general ``n`` there are ``n!`` permutations."
+
+# ╔═╡ 47b7a585-8848-423e-a8a9-4a16a44975cb
+md"An alternative way of thinking of a permutation is as a bijective map from the set ``\{1, 2, \ldots, n\}`` to itself.  For example, for ``n = 5`` a possible permutation is ``(5, 3, 1, 2, 4)``, and we think of this as a shortand notation for the map ``\sigma`` given by ``\sigma(1) = 5, \sigma(2) = 3, \sigma(3) =1, \sigma(4) = 2,`` and ``\sigma(5) = 4``.  The permutation ``(1, 2, 3, \ldots, n-1, n)`` then corresponds to the identity map of the set ``\{1, 2, \ldots, n)``."
+
+# ╔═╡ f350cadf-1c10-4f00-8f5b-4d6d72176571
+md"If ``\sigma`` is the indentity permutation, then clearly ``\sigma(i) < \sigma(j)`` whenever ``i < j``.  However, if ``\sigma`` is not the identity permutation, it cannot preserve the order in this way.  An *inversion* of ``\sigma`` is any pair of numbers ``i`` and ``j`` such that ``1 \leq i < j \leq n`` and ``\sigma(i) > \sigma(j)``.  The *length* of ``\sigma``, denoted by ``l(\sigma)``, is the number of inversions of ``\sigma``."
+
 # ╔═╡ 1cef4f0a-e34e-467a-814f-d3bca7ab420e
 begin
-	section(level::String, title::String) = HTML("<$level id=$(split(title, " ")[1])>$title</$level>")
-	example(n::String) = HTML("""<span id=$("ex"*n)><b>Example $n</b></span>""")
-	proposition(n::String) = HTML("""<span id=$("p"*n)><b>Proposition $n</b></span>""")
-	corollary(n::String) = HTML("""<span id=$("c"*n)><b>Corollary $n</b></span>""")
+	function section(level::String, title::String) 
+		return HTML("<$level id=$(split(title, " ")[1])>$title</$level>")
+	end
+	
+	function part(name::String)
+		id = SubString(name, 1, 1)
+		return (n::String, t::String = "") -> HTML("""<span id=$(id*n)><b>$name $n</b><em>$(" " * t)</em></span>""")
+	end
+
+	example = part("Example")
+	proposition = part("Proposition")
+	corollary = part("Corollary")
+	definition = part("Definition")
+	theorem = part("Theorem")
 end
 
 # ╔═╡ e912ef1b-734f-4ddd-9007-6e08ed97e384
@@ -470,6 +540,15 @@ section("h2", "3 Pulling back forms")
 
 # ╔═╡ 53f037b0-b278-44fb-a486-bd83b172a359
 section("h4", "3.1 Determinants")
+
+# ╔═╡ 5b5b613b-8a61-4f73-bdd6-da2aa2020943
+definition("3.1", "Determinant")
+
+# ╔═╡ 2d2eb9ff-b3c5-4e35-bcb8-4f955171629d
+theorem("3.3", "Uniqueness of Determinants")
+
+# ╔═╡ f874ae8d-95ff-4449-8755-f8aa8227d6ce
+theorem("3.5", "Existence of Determinants")
 
 # ╔═╡ Cell order:
 # ╠═90fb24e0-c88b-11eb-3a76-7712f64d0d6f
@@ -550,6 +629,23 @@ section("h4", "3.1 Determinants")
 # ╠═a5de86a9-dd6e-45b4-b92e-af12ed54b037
 # ╠═e49596cb-ddd1-42b7-9220-98c42e050234
 # ╠═53f037b0-b278-44fb-a486-bd83b172a359
+# ╠═027631a9-3b6e-4fc3-8160-7f07e29f89e1
+# ╠═716b444a-65ab-4d23-abf2-4687e440f455
+# ╠═67c0978f-3698-4a35-8551-fe908725a181
+# ╠═cde7422b-5db5-459a-bb9a-185ac3c18d22
+# ╠═454043e7-bb83-4c04-bef7-eed918fd59f9
+# ╠═838e43bf-98aa-4e7c-8cea-8ec9283123c9
+# ╠═0141487a-d330-458d-9883-c7bd5351cb3a
+# ╠═20430725-6e6c-4103-af07-ff18d9e11b51
+# ╠═5b5b613b-8a61-4f73-bdd6-da2aa2020943
+# ╠═594af7d8-3e80-4771-ac4a-4453b54ed21d
+# ╠═6935e7d8-50b2-47ed-b695-924764c732d7
+# ╠═2d2eb9ff-b3c5-4e35-bcb8-4f955171629d
+# ╠═00582b53-9861-4733-bc22-01e74c6ee01b
+# ╠═f874ae8d-95ff-4449-8755-f8aa8227d6ce
+# ╠═303f0666-fb3a-4052-b05e-6e988231b4b7
+# ╠═47b7a585-8848-423e-a8a9-4a16a44975cb
+# ╠═f350cadf-1c10-4f00-8f5b-4d6d72176571
 # ╠═f66c5349-258a-4218-81f9-57d86b1f9c34
 # ╠═ffd4c917-7cd5-46c8-bba1-58e4b4fc47b9
 # ╠═1cef4f0a-e34e-467a-814f-d3bca7ab420e
