@@ -461,7 +461,78 @@ md"$$\det{(A)} = \sum_{\sigma \in S_n} \text{sign}(\sigma)a_{1, \sigma(1)} a_{2,
 md"An alternative way of thinking of a permutation is as a bijective map from the set ``\{1, 2, \ldots, n\}`` to itself.  For example, for ``n = 5`` a possible permutation is ``(5, 3, 1, 2, 4)``, and we think of this as a shortand notation for the map ``\sigma`` given by ``\sigma(1) = 5, \sigma(2) = 3, \sigma(3) =1, \sigma(4) = 2,`` and ``\sigma(5) = 4``.  The permutation ``(1, 2, 3, \ldots, n-1, n)`` then corresponds to the identity map of the set ``\{1, 2, \ldots, n)``."
 
 # ╔═╡ f350cadf-1c10-4f00-8f5b-4d6d72176571
-md"If ``\sigma`` is the indentity permutation, then clearly ``\sigma(i) < \sigma(j)`` whenever ``i < j``.  However, if ``\sigma`` is not the identity permutation, it cannot preserve the order in this way.  An *inversion* of ``\sigma`` is any pair of numbers ``i`` and ``j`` such that ``1 \leq i < j \leq n`` and ``\sigma(i) > \sigma(j)``.  The *length* of ``\sigma``, denoted by ``l(\sigma)``, is the number of inversions of ``\sigma``."
+md"If ``\sigma`` is the indentity permutation, then clearly ``\sigma(i) < \sigma(j)`` whenever ``i < j``.  However, if ``\sigma`` is not the identity permutation, it cannot preserve the order in this way.  An *inversion* of ``\sigma`` is any pair of numbers ``i`` and ``j`` such that ``1 \leq i < j \leq n`` and ``\sigma(i) > \sigma(j)``.  The *length* of ``\sigma``, denoted by ``l(\sigma)``, is the number of inversions of ``\sigma``.  A permutation is called *even* or *odd* according to whether its length is even, respecitvely, odd."
+
+# ╔═╡ 80790d41-a4b1-48e4-b0fe-70aacb591d56
+md"**Example** For instance, the permutateion ``(5,3, 1, 2, 4)`` has length ``6`` and so is even.  The *sign* of ``\sigma`` is ``\text{sign}(\sigma) = (-1)^{l(\sigma)}``.  Thus ``\text{sign}(\sigma) = 1``."
+
+# ╔═╡ c74b4e38-bc9c-43c9-a91e-8338cda61d7c
+md"**Example** The permutations of ``\{1,2\}`` are ``(1,2)``, which has sign ``1``, and ``(2,1)``, which has sign ``-1``."
+
+# ╔═╡ 7335f45b-ccbc-4fec-b209-1312c70d631b
+md"Thinking of permutations in ``S_n`` as bijective maps from ``\{1,2, \ldots, n\}`` to itself, we can form the composition of ``\sigma \circ \tau`` of any two permutations ``\sigma`` and ``\tau`` in ``S_n``.  For permutations we usually write as ``\sigma\tau`` instead of ``\sigma \circ \tau`` and call it the *product* of ``\sigma`` and ``\tau``."
+
+# ╔═╡ c051055d-42cb-4d3f-b7c1-3f8995b57098
+md"**Example** For instance, if ``\sigma = (5,3,1,2,4)`` and ``\tau = (5,4,3,2,1)``, then ``\tau\sigma = (1,3,5,4,2)`` and ``\sigma\tau = (4,2,1,3,5)``."
+
+# ╔═╡ d82231ea-533c-4095-b798-3656aa32fafb
+md"A basic fact concerning signs, which we will not prove here, is ``\text{sign}(\sigma\tau) = \text{sign}(\sigma)\text{sign}(\tau)``."
+
+# ╔═╡ 0a041a2a-9fd6-4526-83b0-3a8df381b1c2
+md"The determinant formula in [Therorem 3.5](#T3.5) contains ``n!`` terms, one for each permutation of ``\sigma``.  Each term is a product which contains exatly one entry from each row and each column of ``A``.  For instance, for ``n = 5`` the permutation ``(5,3,1,2,4)`` contributes the term ``a_{1,5}a_{2,3}a_{3,1}a_{4,2}a_{5,4}``.  For a ``2 \times 2``-matrix, Theorem 3.5 gives the well-known formula ``|A| = a_{1,1}a_{2,2} - a_{1,2}a_{2,1}``.  For a ``3 \times 3``-matrix, Theorem 3.5 gives the well-known formula 
+
+$$|A| = a_{1,1}a_{2,2}a_{3,3} - a_{1,1}a_{2,3}a_{3,2} - a_{1,2}a_{2,1}a_{3,3} + a_{1,2}a_{2,3}a_{3,1} + a_{1,3}a_{2,1}a_{3,2} - a_{1,2}a_{2,2}a_{3,1}.$$"
+
+# ╔═╡ 18ca0768-e1c0-4367-a9d5-d7604cee9549
+md"We can calculate the determinant of any matrix by column reducing it to the identity matrix, but there are many different ways of performing this reduction.  [Theorem 3.5](#T3.5) implies that different column reductions lead to the same answer for the determinant."
+
+# ╔═╡ 6ba26e90-8cdc-4794-ae0c-9d530f0898b4
+md"The determinant possess the following properties, which characterize the determinant uniquely.
+
+1. ``\det`` is *multilinear* (linear in each column), for scalars ``c, c'``
+
+$$\begin{aligned} \det{(\mathbf{a}_1, \mathbf{a}_2, \ldots, c\mathbf{a}_i + c'\mathbf{a}_j, \ldots, \mathbf{a}_n)} & = c\det{(\mathbf{a}_1, \mathbf{a}_2, \ldots, \mathbf{a}_i, \ldots, \mathbf{a}_n)} + \\
+ & c'\det{(\mathbf{a}_1, \mathbf{a}_2, \ldots, \mathbf{a}_j, \ldots, \mathbf{a}_n)}\\
+\end{aligned}$$
+
+2. ``\det`` is *alternating* (or *antisymmetric*)
+
+$$\det{(\mathbf{a}_1, \ldots, \mathbf{a}_i, \ldots, \mathbf{a}_j, \ldots, \mathbf{a}_n)} = -\det{(\mathbf{a}_1, \ldots, \mathbf{a}_j, \ldots, \mathbf{a}_i, \ldots, \mathbf{a}_n)}$$
+
+for all vectors ``\mathbf{a}_1, \mathbf{a}_2, \ldots, \mathbf{a}_n`` and for all pairs of distinct indices ``i \not= j``.
+
+3. *normalization*: ``\det{(\mathbf{e}_1, \mathbf{e}_2, \ldots, \mathbf{e}_n)} = 1``."
+
+# ╔═╡ 1e0a4922-9931-4b81-9cd4-61d05e8e6d42
+md"Let ``A`` and ``B`` be ``n \times n``-matrices.
+
+1. ``\det{(A)} = \prod_i^n a_{i,i}`` if ``A`` is upper triangular.
+2. ``\det{(AB)} = \det{(A)}\det{(B)}``.
+3. ``\det{(A^T)} = \det{(A)}``.
+4. ``\det{(A)} = \sum_{i=1}^n (-1)^{i+j} a_{i,j} \det{(A^{i,j})}`` for all ``j = 1, 2, \ldots, n``.
+5. Let ``\sigma \in S_n`` be a permutation.  Then 
+
+$$\det{(\mathbf{a}_{\sigma(1)}, \mathbf{a}_{\sigma(2)}, \ldots, \mathbf{a}_{\sigma(n)})} = \text{sign}(\sigma)\det{(\mathbf{a}_1, \mathbf{a}_2, \ldots, \mathbf{a}_n)}$$"
+
+# ╔═╡ a38dbf52-98d2-4b84-8cbb-97568be04dc5
+md"When calculating determinants in practice one combines column reductions with these rules.  For instance, rule 1. tells us we need not bother reducing ``A`` all the way to the identity matrix; an upper triangular form suffices.  Rule 3. tells us we may use row operations as well as column operations."
+
+# ╔═╡ dec8487c-f804-4146-98fa-60ad1b16b928
+md"**Volume Change** A square matrix ``A`` can be regarded as a linear map ``A: \mathbb{R}^n \to \mathbb{R}^n``.  The unit cube in ``\mathbb{R}^n``,
+
+$$[0,1]^n = \{x \in \mathbb{R}^n | 0 \leq x_i \leq 1, i = 1,2, \ldots, n\}$$
+
+has ``n``-dimensional volume ``1``.  Its image under ``A([0,1]^n)`` under the map ``A`` is the parallelepiped spanned by the vectors ``A\mathbf{e}_1, A\mathbf{e}_2, \ldots, A\mathbf{e}_n``, which are the columns of ``A``.  Hence, ``A([0,1]^n)`` has ``n``-dimensional volume
+
+$$\\text{vol}(A([0,1]^n)) = |\det{(A)}| = |\det{(A)}|\text{vol}([0,1]^n).$$"
+
+# ╔═╡ d27b5bc7-6cb3-4442-9196-aeb67f77b034
+md"This rule generalizes as follows: if ``X`` is a measureable subset of ``\mathbb{R}^n``, then
+
+$$\text{vol}(A(X)) = |\det{(A)}|\text{vol}(X).$$"
+
+# ╔═╡ 497aabd1-420e-4716-948e-20b49b5864cf
+md"A set is *measureable* if it has a well-defined, finite or infinite, ``n``-dimensional volume.  So ``|\det{(A)}|`` can be interpreted as a *volume change factor*.  The sign of the determinant tells you whether ``A`` preserves ``(+)`` or reverses ``(-)`` the orientation of ``\mathbb{R}^n``."
 
 # ╔═╡ 1cef4f0a-e34e-467a-814f-d3bca7ab420e
 begin
@@ -549,6 +620,15 @@ theorem("3.3", "Uniqueness of Determinants")
 
 # ╔═╡ f874ae8d-95ff-4449-8755-f8aa8227d6ce
 theorem("3.5", "Existence of Determinants")
+
+# ╔═╡ b8895de7-ea65-476c-baab-bc4f8cf4a122
+corollary("3.6")
+
+# ╔═╡ 36d592a3-a580-4747-95dd-42a0549c96f3
+theorem("3.7")
+
+# ╔═╡ dc647138-55c8-46e5-bba9-345512dffd6c
+section("h4", "3.2 Pulling back forms")
 
 # ╔═╡ Cell order:
 # ╠═90fb24e0-c88b-11eb-3a76-7712f64d0d6f
@@ -646,6 +726,22 @@ theorem("3.5", "Existence of Determinants")
 # ╠═303f0666-fb3a-4052-b05e-6e988231b4b7
 # ╠═47b7a585-8848-423e-a8a9-4a16a44975cb
 # ╠═f350cadf-1c10-4f00-8f5b-4d6d72176571
+# ╠═80790d41-a4b1-48e4-b0fe-70aacb591d56
+# ╠═c74b4e38-bc9c-43c9-a91e-8338cda61d7c
+# ╠═7335f45b-ccbc-4fec-b209-1312c70d631b
+# ╠═c051055d-42cb-4d3f-b7c1-3f8995b57098
+# ╠═d82231ea-533c-4095-b798-3656aa32fafb
+# ╠═0a041a2a-9fd6-4526-83b0-3a8df381b1c2
+# ╠═18ca0768-e1c0-4367-a9d5-d7604cee9549
+# ╠═b8895de7-ea65-476c-baab-bc4f8cf4a122
+# ╠═6ba26e90-8cdc-4794-ae0c-9d530f0898b4
+# ╠═36d592a3-a580-4747-95dd-42a0549c96f3
+# ╠═1e0a4922-9931-4b81-9cd4-61d05e8e6d42
+# ╠═a38dbf52-98d2-4b84-8cbb-97568be04dc5
+# ╠═dec8487c-f804-4146-98fa-60ad1b16b928
+# ╠═d27b5bc7-6cb3-4442-9196-aeb67f77b034
+# ╠═497aabd1-420e-4716-948e-20b49b5864cf
+# ╠═dc647138-55c8-46e5-bba9-345512dffd6c
 # ╠═f66c5349-258a-4218-81f9-57d86b1f9c34
 # ╠═ffd4c917-7cd5-46c8-bba1-58e4b4fc47b9
 # ╠═1cef4f0a-e34e-467a-814f-d3bca7ab420e
