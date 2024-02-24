@@ -32,7 +32,7 @@ md"TODO This notebook is not titled well.  With some calculus-2 tools, we can fa
 md"## Function of a single distribution"
 
 # ╔═╡ e6451454-5383-44e2-8fe2-0d13c81de491
-md"Consider a distribution ``\mathbb{P}`` with distribution function ``F`` and density function ``f = F'``.  A bijective and increasing function ``h`` transforms ``F`` into a new distribution function ``G`` and thus creates a new distribution.  The distribution function ``G`` can be derived as follows.  
+md"Consider a distribution ``\mathbb{P}`` with distribution function ``F`` and density function ``f = F'``.  A bijective and increasing function ``h`` transforms ``F`` into a new distribution function ``G`` and thus creates a new distribution.  The distribution function ``G`` can be derived as follows.
 
 By definition,
 
@@ -45,6 +45,9 @@ $$G(y) = F(h^{-1}(y)) = \int f(s) 1_{(-\infty, h^{-1}(y))}(s) \mathrm{d}s.$$
 
 # ╔═╡ 2d0bf95b-46d9-46d3-b60c-dfc9c9528c46
 md"If ``h`` were instead decreasing, then the inverse ``h^{-1}`` would incur a sign flip to give
+…inverse h^{-1} would incur a sign flip….
+	the formula does not have a -1 appearing, maybe a better term to describe the orientation reversal of the indicator
+
 
 $$G(y) = F(h^{-1}(y)) = \int f(s) 1_{(h^{-1}(y), \infty)}(s) \mathrm{d}s.$$"
 
@@ -57,7 +60,7 @@ The absolute value covers both cases where ``h`` is either increasing or decreas
 
 $$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}h^{-1}}{\mathrm{d} y}(y) \right| \int 1_{\{h^{-1}(y)\}}(s) \mathrm{d}s.$$
 
-Here we can treat the indicator function defined on a particular point as the Dirac delta function.  The integral of the Dirac delta function is ``1``, so that the density function of the distribution function ``G`` is 
+Here we can treat the indicator function defined on a particular point as the Dirac delta function.  The integral of the Dirac delta function is ``1``, so that the density function of the distribution function ``G`` is
 
 $$g(y) = f(h^{-1}(y)) \left| \frac{\mathrm{d}}{\mathrm{d} y} h^{-1}(y) \right|.$$
 
@@ -133,7 +136,7 @@ md"Let ``\mathbb{P}_x = \text{Uniform}(1, 2)`` and ``\mathbb{P}_y = \text{Unifor
 
 $$f(z) = \int f(x) f_y(z/x) \frac{1}{|x|}dx.$$
 
-Since the density function of a ``\text{Uniform}(a, b)`` distribution is defined by 
+Since the density function of a ``\text{Uniform}(a, b)`` distribution is defined by
 
 $$f(s) = \frac{1}{b- a}1_{(a, b)}(s),$$
 
@@ -166,7 +169,7 @@ md"That the approximation (blue) and the true (red) density function overlap so 
 f(z) = 0.5 * (log(min(2, z) / max(1, z/3)))
 
 # ╔═╡ 564f2097-6fb4-4fdc-b34d-3a9c28d295e9
-md"On the other hand, the joint density function 
+md"On the other hand, the joint density function
 
 $$f(x, y) = f(x) f(y) = 1_{(1,2)}(x) \cdot 0.5 \cdot 1_{(1,3)}(y)$$
 
@@ -189,7 +192,7 @@ end
 begin
 	x = 0:0.1:3
 	y = 0:0.1:4
-	wireframe(x, y, f, alpha = 0.0, 
+	wireframe(x, y, f, alpha = 0.0,
 		xlabel = L"x", ylabel = L"y", zlabel = L"f(x, y)")
 end
 
@@ -229,9 +232,9 @@ md"#### Dirac delta function, a definition and properties"
 # ╔═╡ cc458129-bfcf-4ec9-8c83-df647da07b62
 md"The [Dirac delta function](https://en.wikipedia.org/wiki/Dirac_delta_function) is a peculiar little \"function.\" Think of the Dirac delta function as a function named ``\delta`` which satisfies the following two properties
 
-$$\delta(x) = \begin{cases} 
+$$\delta(x) = \begin{cases}
       +\infty & x = 0 \\
-      0 & x \not= 0 \\ 
+      0 & x \not= 0 \\
 \end{cases}$$
 
 and
@@ -246,7 +249,7 @@ The sifting property is
 
 $$\int_{-\infty}^{\infty} f(t) \delta(t - T) \mathrm{d}t = f(T).$$
 
-The Dirac delta function is even, 
+The Dirac delta function is even,
 
 $$\delta(-x) = \delta(x).$$
 
